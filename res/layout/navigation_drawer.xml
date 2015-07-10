@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_navigation"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="left|start"
+    android:background="@android:color/white" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <!-- 1 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_1"
+            android:padding="@dimen/avatar_padding" >
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_avatar" />
+
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="2dp"
+                android:layout_toRightOf="@+id/iv_avatar"
+                android:text="@string/nickname" />
+
+            <TextView
+                android:id="@+id/tv_grade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_nickname"
+                android:layout_below="@+id/tv_nickname"
+                android:text="@string/grade" />
+        </RelativeLayout>
+
+        <!-- 2 -->
+
+        <ListView
+            android:id="@+id/taskTotalList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:padding="@dimen/avatar_padding" >
+        </ListView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="@color/gray_1" />
+
+        <!-- Menu items -->
+
+        <ListView
+            android:id="@+id/navList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.91"
+            android:background="@android:color/white"
+            android:choiceMode="singleChoice"
+            android:padding="@dimen/avatar_padding"
+            android:scrollbars="vertical" />
+    </LinearLayout>
+
+    <!-- Bottom settings&messages -->
+
+    <LinearLayout
+        android:id="@+id/layout_bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/settings_messages_height"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_1"
+        android:orientation="horizontal" >
+
+        <!-- Settings -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:drawableLeft="@drawable/ic_settings"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textSize="@dimen/settings_messages_text_height" />
+        </LinearLayout>
+        <!-- Messages -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_messages"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:drawableLeft="@drawable/ic_messages"
+                android:gravity="center"
+                android:text="@string/messages"
+                android:textSize="@dimen/settings_messages_text_height" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

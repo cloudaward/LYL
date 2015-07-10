@@ -3,11 +3,29 @@
 
     <string name="app_name">捞银两</string>
     <string name="action_settings">设置</string>
+    <string name="action_share">分享</string>
     <string name="drawer_open">打开</string>
     <string name="drawer_close">关闭</string>
-    <string name="action_share">分享</string>
     <string name="latest_online">最新上线</string>
     <string name="final_rushing">最后疯抢</string>
     <string name="coming_soon">即将上线</string>
+    <string name="settings">设置</string>
+    <string name="messages">信息</string>
+    <string name="nickname">昵称</string>
+    <string name="grade">等级</string>
+
+    <string name="personal_info_settings">个人信息设置</string>
+    <string name="my_account">我的账户</string>
+    <string name="joined_ads">我参与的广告</string>
+    <string name="published_ads">我发布的广告</string>
+    <string name="invite_friends_use">邀请好友使用</string>
+    <string name="feedback">意见反馈</string>
+    <string name="about">关于捞银两</string>
+    
+    <string name="joined_task_number">参与的任务数</string>
+    <string name="published_task_number">发布的任务数</string>
+    <string name="awarded_total_money">赏金总额</string>
+    <string name="balance_money">用户余额</string>
+    
 
 </resources>

@@ -1,0 +1,30 @@
+<resources>
+
+    <array name="navMenuItemIcons">
+        <item>@drawable/ic_personal_settings</item>
+        <item>@drawable/ic_account</item>
+        <item>@drawable/ic_joined_ads</item>
+        <item>@drawable/ic_published_ads</item>
+        <item>@drawable/ic_invite_friends_use</item>
+        <item>@drawable/ic_feedback</item>
+        <item>@drawable/ic_about</item>
+    </array>
+    
+    <string-array name="navMenuItemTexts">
+        <item>@string/personal_info_settings</item>
+        <item>@string/my_account</item>
+        <item>@string/joined_ads</item>
+        <item>@string/published_ads</item>
+        <item>@string/invite_friends_use</item>
+        <item>@string/feedback</item>
+        <item>@string/about</item>
+    </string-array>
+
+    <string-array name="userTaskTotalTexts">
+        <item>@string/joined_task_number</item>
+        <item>@string/published_task_number</item>
+        <item>@string/awarded_total_money</item>
+        <item>@string/balance_money</item>
+    </string-array>
+    
+</resources>
