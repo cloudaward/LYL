@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">捞银两</string>
+    <string name="action_settings">设置</string>
+    <string name="drawer_open">打开</string>
+    <string name="drawer_close">关闭</string>
+    <string name="action_share">分享</string>
+    <string name="latest_online">最新上线</string>
+    <string name="final_rushing">最后疯抢</string>
+    <string name="coming_soon">即将上线</string>
+
+</resources>
