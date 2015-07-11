@@ -15,14 +15,14 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/pagerSlidingTabStrip"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:textColor="@color/primary_color"
+            android:layout_height="36dp"
             android:textSize="14sp"
+            app:pstsSelectedTabTextColor="@color/primary_color"
             app:pstsDividerColor="@android:color/transparent"
             app:pstsIndicatorColor="@color/primary_color"
-            app:pstsIndicatorHeight="4dp"
+            app:pstsIndicatorHeight="2dp"
             app:pstsShouldExpand="true"
-            app:pstsTabPaddingLeftRight="14dp"
+            app:pstsTabPaddingLeftRight="4dp"
             app:pstsUnderlineColor="@android:color/white" >
         </com.astuetz.PagerSlidingTabStrip>
 

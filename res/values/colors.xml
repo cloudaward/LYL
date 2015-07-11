@@ -1,11 +1,13 @@
 <resources>
+    
+    <color name="background_tab_pressed">#6633B5E5</color>
 
-    <color name="primary_color">#ff4b00</color>
+    <color name="primary_color">#FF4A21</color>
     
     <color name="gray_1">#ecf0f1</color>
     <color name="gray_2">#a9b7b7</color>
 
-    <color name="list_item_pressed_color">#ff4b00</color>
+    <color name="list_item_pressed_color">@color/primary_color</color>
     
     <color name="list_item_default_color">#ffffff</color>
     

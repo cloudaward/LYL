@@ -8,4 +8,5 @@
     <dimen name="nav_menu_item_height">36dp</dimen>
     <dimen name="user_task_total_item_height">24dp</dimen>
     <dimen name="avatar_padding">8dp</dimen>
+    <dimen name="navigation_drawer_width">200dp</dimen>
 </resources>
