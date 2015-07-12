@@ -36,6 +36,7 @@ import com.cloudaward.lyl.bean.NavMenuItem;
 import com.cloudaward.lyl.fragments.ComingFragment;
 import com.cloudaward.lyl.fragments.FinalFragment;
 import com.cloudaward.lyl.fragments.LatestFragment;
+import com.cloudaward.lyl.utils.ActivityUtils;
 
 /**
  * Main activity
@@ -233,6 +234,7 @@ public class MainActivity extends BaseActivity {
   protected void onNavItemClicked(NavMenuItem menuItem) {
     // TODO
     Toast.makeText(getApplicationContext(), menuItem.getText() + " menu clicked TODO!!!", Toast.LENGTH_SHORT).show();
+    ActivityUtils.startActivity(this, LoginRegisterActivity.class);
   }
 
   private void setupDrawer() {

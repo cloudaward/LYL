@@ -13,7 +13,6 @@
     <string name="messages">信息</string>
     <string name="nickname">昵称</string>
     <string name="grade">等级</string>
-
     <string name="personal_info_settings">个人信息设置</string>
     <string name="my_account">我的账户</string>
     <string name="joined_ads">我参与的广告</string>
@@ -21,11 +20,21 @@
     <string name="invite_friends_use">邀请好友使用</string>
     <string name="feedback">意见反馈</string>
     <string name="about">关于捞银两</string>
-    
     <string name="joined_task_number">参与的任务数</string>
     <string name="published_task_number">发布的任务数</string>
     <string name="awarded_total_money">赏金总额</string>
     <string name="balance_money">用户余额</string>
-    
+    <string name="title_activity_regist">RegistActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_login_register">LoginRegisterActivity</string>
+    <string name="register">注册</string>
+    <string name="login">登录</string>
+    <string name="thirdparty_login">第三方账号快速登录</string>
+    <string name="weixin">微信</string>
+    <string name="weibo">微博</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="pls_input_username">请输入您的用户名</string>
+    <string name="pls_input_password">请输入您的密码</string>
+    <string name="forget_password">忘记密码?</string>
 
 </resources>
