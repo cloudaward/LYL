@@ -18,7 +18,6 @@ package com.astuetz;
 
 import java.util.Locale;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -43,7 +42,6 @@ import android.widget.TextView;
 
 import com.cloudaward.lyl.R;
 
-@SuppressLint("NewApi")
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public interface IconTabProvider {

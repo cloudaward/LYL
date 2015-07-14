@@ -11,7 +11,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cloudaward.lyl.bean.ClientInfo;
+import com.cloudaward.lyl.beans.ClientInfo;
 import com.cloudaward.lyl.utils.MapUtils;
 import com.cloudaward.lyl.utils.SystemUtils;
 

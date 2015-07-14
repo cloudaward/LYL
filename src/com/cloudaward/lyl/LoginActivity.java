@@ -24,8 +24,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
-import com.cloudaward.lyl.bean.LoginContext;
+import com.cloudaward.lyl.beans.LoginContext;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
+import com.cloudaward.lyl.utils.ActivityUtils;
 import com.cloudaward.lyl.utils.Des3;
 import com.cloudaward.lyl.utils.MD5;
 import com.cloudaward.lyl.utils.MapUtils;
@@ -54,33 +55,39 @@ public class LoginActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    initActionBar();
+
     initLoginButton();
 
     initUsernameEditText();
-    
+
     initPasswordEditText();
+  }
+
+  private void initActionBar() {
+    ActivityUtils.initGeneralActionBar(this, getResources().getString(R.string.login));
   }
 
   private void initPasswordEditText() {
     mPasswordEditText = (EditText) findViewById(R.id.it_password);
     mPasswordEditText.addTextChangedListener(new TextWatcher() {
-      
+
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
         // TODO Auto-generated method stub
-        
+
       }
-      
+
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         // TODO Auto-generated method stub
-        
+
       }
-      
+
       @Override
       public void afterTextChanged(Editable s) {
         // TODO Auto-generated method stub
-        
+
       }
     });
   }
@@ -164,7 +171,7 @@ public class LoginActivity extends ActionBarActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.login, menu);
+    // getMenuInflater().inflate(R.menu.login, menu);
     return true;
   }
 

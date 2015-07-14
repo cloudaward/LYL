@@ -25,7 +25,6 @@
     <string name="awarded_total_money">赏金总额</string>
     <string name="balance_money">用户余额</string>
     <string name="title_activity_regist">RegistActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_login_register">LoginRegisterActivity</string>
     <string name="register">注册</string>
     <string name="login">登录</string>
@@ -36,5 +35,8 @@
     <string name="pls_input_username">请输入您的用户名</string>
     <string name="pls_input_password">请输入您的密码</string>
     <string name="forget_password">忘记密码?</string>
+    <string name="menu_text">菜单文本</string>
+    <string name="location">位置</string>
+    <string name="title">标题</string>
 
 </resources>

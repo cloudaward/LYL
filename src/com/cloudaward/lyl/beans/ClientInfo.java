@@ -1,4 +1,4 @@
-package com.cloudaward.lyl.bean;
+package com.cloudaward.lyl.beans;
 
 
 

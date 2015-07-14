@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- PagerSlidingTabStrip -->
     <declare-styleable name="PagerSlidingTabStrip">
         <attr name="pstsIndicatorColor" format="color" />
         <attr name="pstsUnderlineColor" format="color" />
@@ -15,5 +16,4 @@
         <attr name="pstsTextAllCaps" format="boolean" />
         <attr name="pstsSelectedTabTextColor" format="color" />
     </declare-styleable>
-
 </resources>

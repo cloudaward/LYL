@@ -4,10 +4,15 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_menu_text_margin_left_icon">8dp</dimen>
     <dimen name="settings_messages_height">36dp</dimen>
-    <dimen name="settings_messages_text_height">16sp</dimen>
+    <dimen name="settings_messages_text_size">16sp</dimen>
     <dimen name="nav_menu_item_height">36dp</dimen>
     <dimen name="user_task_total_item_height">24dp</dimen>
     <dimen name="avatar_padding">8dp</dimen>
     <dimen name="navigation_drawer_width">200dp</dimen>
     <dimen name="register_login_button_text_size">1dp</dimen>
+    <dimen name="nickname_margin_left">24dp</dimen>
+    <dimen name="actionbar_main_padding">8dp</dimen>
+    <dimen name="actionbar_main_height">40dp</dimen>
+    <dimen name="pagerSlidingTabStrip_height">36dp</dimen>
+    <dimen name="reside_menu_padding">16dp</dimen>
 </resources>
