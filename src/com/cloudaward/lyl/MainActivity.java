@@ -17,12 +17,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.cloudaward.lyl.fragments.ComingFragment;
 import com.cloudaward.lyl.fragments.FinalFragment;
 import com.cloudaward.lyl.fragments.LatestFragment;
+import com.cloudaward.lyl.utils.ActivityUtils;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -139,9 +139,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-      ResideMenuItem item = (ResideMenuItem) v;
-      Toast.makeText(getApplicationContext(), item.getId() + " menu clicked TODO!!!",
-          Toast.LENGTH_SHORT).show();
+      ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
     }
 
   }

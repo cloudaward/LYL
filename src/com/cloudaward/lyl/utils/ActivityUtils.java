@@ -1,6 +1,7 @@
 package com.cloudaward.lyl.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -17,7 +18,7 @@ import com.cloudaward.lyl.R;
 @SuppressWarnings("deprecation")
 public class ActivityUtils {
 
-  public static void startActivity(ActionBarActivity activity, Class<?> toActivityClass) {
+  public static void startActivity(Context activity, Class<?> toActivityClass) {
     Intent intent = new Intent();
     intent.setClass(activity, toActivityClass);
     activity.startActivity(intent);
