@@ -11,9 +11,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.cloudaward.lyl.beans.ClientInfo;
-import com.cloudaward.lyl.utils.MapUtils;
-import com.cloudaward.lyl.utils.SystemUtils;
 
 public class LylJsonObjectRequest extends JsonObjectRequest {
 
@@ -29,22 +26,11 @@ public class LylJsonObjectRequest extends JsonObjectRequest {
 
   @Override
   public Map<String, String> getHeaders() throws AuthFailureError {
-    ClientInfo clientInfo = new ClientInfo();
-    clientInfo.setPlatform("2");
-    clientInfo.setUuid(SystemUtils.getUUID(context));
-    clientInfo.setOsVersion(android.os.Build.VERSION.RELEASE);
-    // TODO
-    clientInfo.setChannel("unknown");
-    clientInfo.setScreen(SystemUtils.getScreenSize(context));
-    clientInfo.setLocation("unknown");
-    Map<String, String> map = MapUtils.toMap(clientInfo);
-    JSONObject jsonObject = new JSONObject(map);
-    requestHeader.put("c", jsonObject.toString());
     return requestHeader;
   }
 
   public void setHeader(Map<String, String> map) {
     requestHeader.putAll(map);
   }
-
+  
 }

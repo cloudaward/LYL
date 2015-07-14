@@ -1,6 +1,5 @@
 package com.cloudaward.lyl;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -21,15 +20,18 @@ import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.cloudaward.lyl.beans.ClientInfo;
 import com.cloudaward.lyl.beans.LoginContext;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
 import com.cloudaward.lyl.utils.ActivityUtils;
 import com.cloudaward.lyl.utils.Des3;
 import com.cloudaward.lyl.utils.MD5;
 import com.cloudaward.lyl.utils.MapUtils;
+import com.cloudaward.lyl.utils.SystemUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -125,12 +127,12 @@ public class LoginActivity extends ActionBarActivity {
       public void onClick(View v) {
         String username = mUsernameEditText.getText().toString();
         if (username == null || username.length() <= 0) {
-          Toast.makeText(getApplicationContext(), errorMsg.get(1), Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, errorMsg.get(1), Toast.LENGTH_SHORT).show();
           return;
         }
         String password = mPasswordEditText.getText().toString();
         if (password == null || username.length() <= 0) {
-          Toast.makeText(getApplicationContext(), errorMsg.get(2), Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, errorMsg.get(2), Toast.LENGTH_SHORT).show();
           return;
         }
         LoginContext context = new LoginContext();
@@ -142,30 +144,46 @@ public class LoginActivity extends ActionBarActivity {
 
   }
 
-  protected void login(LoginContext context) {
+  protected void login(LoginContext loginContext) {
     String url = "http://www.laoyinliang.com/user/login";
-    Map<String, String> map = MapUtils.toMap(context);
+    Map<String, String> map = MapUtils.toMap(loginContext);
     JSONObject jsonObject = new JSONObject(map);
-    Map<String, String> dataMap = new HashMap<String, String>();
-    dataMap.put("data", jsonObject.toString());
-    JSONObject requestBody = new JSONObject(dataMap);
-    Log.d(TAG, requestBody.toString());
-    LylJsonObjectRequest request =
-        new LylJsonObjectRequest(Method.POST, url, requestBody, new Listener<JSONObject>() {
-
+    url += "?" + "data=" + jsonObject.toString();
+    
+    ClientInfo clientInfo = new ClientInfo();
+    clientInfo.setPlatform("2");
+    clientInfo.setUuid(SystemUtils.getUUID(this));
+    clientInfo.setOsVersion(android.os.Build.VERSION.RELEASE);
+    // TODO
+    clientInfo.setChannel("unknown");
+    clientInfo.setScreen(SystemUtils.getScreenSize(this));
+    clientInfo.setLocation("unknown");
+    map = MapUtils.toMap(clientInfo);
+    jsonObject = new JSONObject(map);
+    url += "&" + "c=" + jsonObject.toString();
+    
+    // @formatter:off
+    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.GET, url, null, 
+        new Listener<JSONObject>() {
+        
           @Override
           public void onResponse(JSONObject response) {
             Log.d(TAG, response.toString());
+            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
           }
-        }, new com.android.volley.Response.ErrorListener() {
+        }, 
+        new ErrorListener() {
 
           @Override
           public void onErrorResponse(VolleyError error) {
+            Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, error.getMessage());
           }
-        }, getApplicationContext());
-    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }, LoginActivity.this);
+    RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
     requestQueue.add(request);
+    // @formatter:on
+    Log.d(TAG, request.toString());
   }
 
   @Override
