@@ -1,15 +1,16 @@
 package com.cloudaward.lyl;
 
 import java.net.URLEncoder;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.SparseArray;
@@ -29,10 +30,9 @@ import com.cloudaward.lyl.beans.LoginContext;
 import com.cloudaward.lyl.consts.UrlConsts;
 import com.cloudaward.lyl.network.LylJSONObject;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
-import com.cloudaward.lyl.utils.ActivityUtils;
+import com.cloudaward.lyl.utils.ActionBarUtils;
 import com.cloudaward.lyl.utils.Des3;
 import com.cloudaward.lyl.utils.MD5;
-import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -48,6 +48,8 @@ public class LoginActivity extends ActionBarActivity {
 
   private static SparseArray<String> errorMsg = new SparseArray<String>();
 
+  private SessionManager mSessionManager;
+
   static {
     errorMsg.put(1, "用户名不能为空");
     errorMsg.put(2, "密码不能为空");
@@ -58,6 +60,8 @@ public class LoginActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
 
+    mSessionManager = new SessionManager(this);
+
     initActionBar();
 
     initLoginButton();
@@ -65,10 +69,11 @@ public class LoginActivity extends ActionBarActivity {
     initUsernameEditText();
 
     initPasswordEditText();
+
   }
 
   private void initActionBar() {
-    ActivityUtils.initGeneralActionBar(this, getResources().getString(R.string.login));
+    ActionBarUtils.initGeneralActionBar(this, getResources().getString(R.string.login));
   }
 
   private void initPasswordEditText() {
@@ -97,9 +102,13 @@ public class LoginActivity extends ActionBarActivity {
 
   private void initUsernameEditText() {
     mUsernameEditText = (EditText) findViewById(R.id.it_username);
-    SharedPreferences prefs = getSharedPreferences("loginUser", Context.MODE_PRIVATE);
-    String username = prefs.getString("username", "");
-    mUsernameEditText.setText(username);
+    Map<String, String> map = mSessionManager.getLoginDetails();
+    if (map != null) {
+      String username = map.get(SessionManager.KEY_USERNAME);
+      if (TextUtils.isEmpty(username)) {
+        mUsernameEditText.setText(username);
+      }
+    }
     mUsernameEditText.addTextChangedListener(new TextWatcher() {
 
       @Override
@@ -127,19 +136,17 @@ public class LoginActivity extends ActionBarActivity {
 
       @Override
       public void onClick(View v) {
-        String username = mUsernameEditText.getText().toString();
-        if (username == null || username.length() <= 0) {
+        if (TextUtils.isEmpty(mUsernameEditText.getText())) {
           Toast.makeText(LoginActivity.this, errorMsg.get(1), Toast.LENGTH_SHORT).show();
           return;
         }
-        String password = mPasswordEditText.getText().toString();
-        if (password == null || username.length() <= 0) {
+        if (TextUtils.isEmpty(mPasswordEditText.getText())) {
           Toast.makeText(LoginActivity.this, errorMsg.get(2), Toast.LENGTH_SHORT).show();
           return;
         }
         LoginContext context = new LoginContext();
-        context.setAccount(Des3.encode(username));
-        context.setPassword(MD5.md5(password));
+        context.setAccount(Des3.encode(mUsernameEditText.getText().toString()));
+        context.setPassword(MD5.md5(mPasswordEditText.getText().toString()));
         login(context);
       }
     });
@@ -170,15 +177,14 @@ public class LoginActivity extends ActionBarActivity {
               e.printStackTrace();
             }
             if(code == 0) {
-              SharedPreferencesUtils.putString(LoginActivity.this, "username", mUsernameEditText.getText().toString());
-              ActivityUtils.startActivity(LoginActivity.this, MainActivity.class);
+              mSessionManager.createLoginSession(mUsernameEditText.getText().toString());
+              Intent intent = new Intent();
+              intent.setClass(LoginActivity.this, MainActivity.class);
+              startActivity(intent);
+              finish();
+              return;
             }
-            if(code == 1){
-              Toast.makeText(LoginActivity.this, getResources().getString(R.string.password_error), Toast.LENGTH_SHORT).show();
-            }
-            else if(code == 2) {
-              Toast.makeText(LoginActivity.this, getResources().getString(R.string.username_not_found), Toast.LENGTH_SHORT).show();
-            } 
+            loginError(code);
           }
         }, 
         new ErrorListener() {
@@ -192,6 +198,12 @@ public class LoginActivity extends ActionBarActivity {
     MainApplication.getInstance().getRequestQueue().add(request);
     // @formatter:on
     Log.d(TAG, request.toString());
+  }
+
+  private void loginError(int errorCode) {
+    // @formatter:off
+    Toast.makeText(this, getResources().getString(R.string.username_or_password_error), Toast.LENGTH_SHORT).show();
+    // @formatter:on
   }
 
   @Override
@@ -211,5 +223,13 @@ public class LoginActivity extends ActionBarActivity {
       return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+  
+  @Override
+  public void onBackPressed() {
+    Intent intent = new Intent();
+    intent.setClass(LoginActivity.this, LoginRegisterActivity.class);
+    startActivity(intent);
+    finish();
   }
 }

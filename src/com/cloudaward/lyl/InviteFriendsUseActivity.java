@@ -1,5 +1,7 @@
 package com.cloudaward.lyl;
 
+import com.cloudaward.lyl.utils.ActionBarUtils;
+
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -7,18 +9,19 @@ import android.view.MenuItem;
 
 
 @SuppressWarnings("deprecation")
-public class RegistActivity extends ActionBarActivity {
+public class InviteFriendsUseActivity extends ActionBarActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_regist);
+    setContentView(R.layout.activity_invite_friends_use);
+    ActionBarUtils.initGeneralActionBar(this, getTitle());
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.regist, menu);
+//    getMenuInflater().inflate(R.menu.invite_friends_use, menu);
     return true;
   }
 

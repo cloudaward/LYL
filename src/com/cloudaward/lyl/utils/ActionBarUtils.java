@@ -1,9 +1,6 @@
 package com.cloudaward.lyl.utils;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
@@ -16,23 +13,10 @@ import android.widget.TextView;
 import com.cloudaward.lyl.R;
 
 @SuppressWarnings("deprecation")
-public class ActivityUtils {
+public class ActionBarUtils {
 
-  public static void startActivity(Context activity, Class<?> toActivityClass) {
-    Intent intent = new Intent();
-    intent.setClass(activity, toActivityClass);
-    activity.startActivity(intent);
-  }
-
-  @SuppressLint("NewApi")
-  public static void startActivityForResult(ActionBarActivity activity, Class<?> toActivityClass, int requestCode, Bundle options) {
-    Intent intent = new Intent();
-    intent.setClass(activity, toActivityClass);
-    activity.startActivityForResult(intent, requestCode, options);
-  }
-  
   @SuppressLint("InflateParams")
-  public static void initGeneralActionBar(final ActionBarActivity activity, String title) {
+  public static void initGeneralActionBar(final ActionBarActivity activity, CharSequence title) {
     ActionBar actionBar = activity.getSupportActionBar();
     View view = LayoutInflater.from(activity).inflate(R.layout.actionbar_general, null);
     ActionBar.LayoutParams params =

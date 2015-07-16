@@ -4,12 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.content.res.TypedArray;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -17,12 +18,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.cloudaward.lyl.fragments.ComingFragment;
 import com.cloudaward.lyl.fragments.FinalFragment;
 import com.cloudaward.lyl.fragments.LatestFragment;
-import com.cloudaward.lyl.utils.ActivityUtils;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -33,31 +34,68 @@ import com.special.ResideMenu.ResideMenuItem;
  *
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnClickListener {
 
-
+  // The left side bar
+  // @formatter:off
   private ResideMenu mResideMenu;
+  private ResideMenuItem mPersonalInfoSettingsMenuItem;
+  private ResideMenuItem mAccountMenuItem;
+  private ResideMenuItem mJoinedTasksMenuItem;
+  private ResideMenuItem mPublishedTasksMenuItem;
+  private ResideMenuItem mInviteFriendsUseMenuItem;
+  private ResideMenuItem mFeedbackMenuItem;
+  private ResideMenuItem mAboutItem;
+  // @formatter:on
 
+  // The action bar
+  // @formatter:off
   private ImageView mHomeImageView;
   private TextView mLocationTextView;
   private ImageView mAddImageView;
+  // @formatter:on
 
+  // The view pager and fragments
+  // @formatter:off
   private FragmentPagerAdapter mFragmentPagerAdapter;
   private ViewPager mViewPager;
   private com.astuetz.PagerSlidingTabStrip mPagerSlidingTabStrip;
-
   private List<String> mFragmentPageTitles;
   private Fragment mLatestFragment;
   private Fragment mFinalFragment;
   private Fragment mComingFragment;
+  // @formatter:on
 
+  private SessionManager mSessionManager;
+  
+  private long exitTime = 0;
+  private static final long quitInterval = 2000;
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    mSessionManager = new SessionManager(this);
+
+    // Initialize reside menu
     initResideMenu();
 
+    // Initialize action bar
+    initActionBar();
+
+    // Initialize view pager& fragments
+    initViewPager();
+    
+  }
+  
+  @Override
+  protected void onStart() {
+//    mSessionManager.checkLogin();
+    super.onStart();
+  }
+
+  private void initActionBar() {
     // Hide action bar
     getSupportActionBar().hide();
 
@@ -66,16 +104,6 @@ public class MainActivity extends BaseActivity {
     initLocationTextView();
 
     initAddImageView();
-
-    // @formatter:off
-    mFragmentPageTitles = Arrays.asList(new String[] {
-        getResources().getString(R.string.latest_online),
-        getResources().getString(R.string.final_rushing),
-        getResources().getString(R.string.coming_soon),
-    });
-    // @formatter:on
-    // Initialize view pager& fragments
-    initViewPager();
   }
 
   private void initLocationTextView() {
@@ -114,7 +142,6 @@ public class MainActivity extends BaseActivity {
 
   @SuppressLint("InflateParams")
   private void initResideMenu() {
-
     mResideMenu = new ResideMenu(this);
     mResideMenu.setBackground(R.drawable.bg_residemenu);
     mResideMenu.attachToActivity(this);
@@ -123,34 +150,111 @@ public class MainActivity extends BaseActivity {
   }
 
   private void initResideMenuItems() {
-    TypedArray icons = getResources().obtainTypedArray(R.array.menu_item_icons);
-    String[] labels = getResources().getStringArray(R.array.menu_item_labels);
-    int length = icons.length();
-    for (int i = 0; i < length; i++) {
-      int icon = icons.getResourceId(i, R.drawable.ic_launcher);
-      ResideMenuItem item = new ResideMenuItem(getApplicationContext(), icon, labels[i], R.drawable.ic_forward);
-      item.setOnClickListener(new ResideMenuItemOnClickedListener());
-      item.setBackgroundResource(R.drawable.menu_item_selector);
-      mResideMenu.addMenuItem(item, ResideMenu.DIRECTION_LEFT);
-    }
-    icons.recycle();
+
+    initPersonalInfoSettingsMenuItem();
+
+    initAccountMenuItem();
+
+    initJoinedTasksMenuItem();
+
+    initPublishedTasksMenuItem();
+
+    initInviteFriendsUseMenuItem();
+
+    initFeedbackMenuItem();
+
+    initAboutMenuItem();
+
   }
 
-  private final class ResideMenuItemOnClickedListener implements OnClickListener {
+  private void initPersonalInfoSettingsMenuItem() {
+    //@formatter:off
+    mPersonalInfoSettingsMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_personal_info_settings, 
+        getResources().getString(R.string.title_activity_personal_info_settings),
+        R.drawable.ic_forward
+    );
+    //@formatter:on
+    mPersonalInfoSettingsMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mPersonalInfoSettingsMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
 
-    @Override
-    public void onClick(View v) {
-      ActivityUtils.startActivity(MainActivity.this, LoginActivity.class);
-    }
+  private void initAccountMenuItem() {
+    //@formatter:off
+    mAccountMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_my_account, 
+        getResources().getString(R.string.title_activity_my_accout),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mAccountMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mAccountMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
 
+  private void initJoinedTasksMenuItem() {
+    //@formatter:off
+    mJoinedTasksMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_joined_tasks, 
+        getResources().getString(R.string.title_activity_joined_tasks),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mJoinedTasksMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mJoinedTasksMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
+
+  private void initPublishedTasksMenuItem() {
+    //@formatter:off
+    mPublishedTasksMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_joined_tasks, 
+        getResources().getString(R.string.title_activity_published_tasks),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mPublishedTasksMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mPublishedTasksMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
+
+  private void initInviteFriendsUseMenuItem() {
+    //@formatter:off
+    mInviteFriendsUseMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_invite_friends_use, 
+        getResources().getString(R.string.title_activity_invite_friends_use),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mInviteFriendsUseMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mInviteFriendsUseMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
+
+  private void initFeedbackMenuItem() {
+    //@formatter:off
+    mFeedbackMenuItem = new ResideMenuItem(this, 
+        R.drawable.ic_feedback, 
+        getResources().getString(R.string.title_activity_feedback),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mFeedbackMenuItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mFeedbackMenuItem, ResideMenu.DIRECTION_LEFT);
+  }
+
+  private void initAboutMenuItem() {
+    //@formatter:off
+    mAboutItem = new ResideMenuItem(this, 
+        R.drawable.ic_about, 
+        getResources().getString(R.string.title_activity_about),
+        R.drawable.ic_forward
+        );
+    //@formatter:on
+    mAboutItem.setOnClickListener(this);
+    mResideMenu.addMenuItem(mAboutItem, ResideMenu.DIRECTION_LEFT);
   }
 
   @Override
   public boolean dispatchTouchEvent(MotionEvent ev) {
     return mResideMenu.dispatchTouchEvent(ev);
   }
-
-
 
   private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -194,6 +298,13 @@ public class MainActivity extends BaseActivity {
   }
 
   private void initViewPager() {
+    // @formatter:off
+    mFragmentPageTitles = Arrays.asList(new String[] {
+        getResources().getString(R.string.latest_online),
+        getResources().getString(R.string.final_rushing),
+        getResources().getString(R.string.coming_soon),
+    });
+    // @formatter:on
     mViewPager = (ViewPager) findViewById(R.id.viewPager);
     mFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
     mViewPager.setAdapter(mFragmentPagerAdapter);
@@ -224,6 +335,63 @@ public class MainActivity extends BaseActivity {
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onClick(View v) {
+    // @formatter:off
+    if (v == mPersonalInfoSettingsMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, PersonalInfoSettingsActivity.class);
+      startActivity(intent);
+    } 
+    else if (v == mAccountMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, MyAccoutActivity.class);
+      startActivity(intent);
+    }
+    else if (v == mJoinedTasksMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, JoinedTasksActivity.class);
+      startActivity(intent);
+    }
+    else if (v == mPublishedTasksMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, PublishedTasksActivity.class);
+      startActivity(intent);
+    }
+    else if (v == mInviteFriendsUseMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, InviteFriendsUseActivity.class);
+      startActivity(intent);
+    }
+    else if (v == mFeedbackMenuItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, FeedbackActivity.class);
+      startActivity(intent);
+    }
+    else if (v == mAboutItem) {
+      Intent intent = new Intent();
+      intent.setClass(this, AboutActivity.class);
+      startActivity(intent);
+    }
+    // @formatter:on
+  }
+  
+  @Override
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+      if ((System.currentTimeMillis() - exitTime) > quitInterval) {
+        Toast.makeText(getApplicationContext(),
+            getResources().getString(R.string.back_pressed_again_quit), Toast.LENGTH_SHORT).show();
+        exitTime = System.currentTimeMillis();
+      } else {
+        finish();
+        System.exit(0);
+      }
+      return true;
+    }
+    return super.onKeyDown(keyCode, event);
   }
 
 }

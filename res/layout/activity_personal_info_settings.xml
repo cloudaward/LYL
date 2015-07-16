@@ -1,0 +1,343 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin" >
+
+        <RelativeLayout
+            android:id="@+id/layout_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeight" >
+
+            <TextView
+                android:id="@+id/tv_avatar_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/avatar"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_forward"
+                android:layout_toStartOf="@+id/iv_forward"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_avatar" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:id="@+id/layout_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_nickname_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/nickname"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_nickname_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_cellphone"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_cellphone_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/cellphone"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_cellphone_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+
+            <TextView
+                android:id="@+id/tv_cellphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_cellphone_forward"
+                android:layout_toStartOf="@+id/iv_cellphone_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_gender"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_gender_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/gender"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_gender_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_gender_forward"
+                android:layout_toStartOf="@+id/iv_gender_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_personal_base_info"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_personal_base_info_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/personal_base_info"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_personal_base_info_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:background="@color/gray_1" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_thirdparty_auth_settings"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_thirdparty_auth_settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/thirdparty_auth_settings"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_thirdparty_auth_settings_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:id="@+id/layout_messages_settings"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_messages_settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/messages_settings"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_messages_settings_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_clear_cache"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_clear_cache_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/clear_cache"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_clear_cache_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/layout_score"
+            android:layout_height="?android:attr/listPreferredItemHeightSmall" >
+
+            <TextView
+                android:id="@+id/tv_score_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="@string/score"
+                android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+
+            <ImageView
+                android:id="@+id/iv_score_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_forward" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="8dp"
+        android:background="@color/gray_1" />
+
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/logout"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:textColor="@color/red" />
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_1" />
+
+</LinearLayout>

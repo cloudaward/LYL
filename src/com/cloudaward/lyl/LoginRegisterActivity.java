@@ -1,5 +1,6 @@
 package com.cloudaward.lyl;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,8 +10,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.cloudaward.lyl.utils.ActivityUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -90,12 +89,15 @@ public class LoginRegisterActivity extends ActionBarActivity {
   }
 
   protected void register() {
-//    ActivityUtils.startActivity(this, RegisterActivity.class);
-    this.finish();
+    Intent intent = new Intent();
+    intent.setClass(this, RegisterActivity.class);
+    startActivity(intent);
   }
 
   protected void login() {
-    ActivityUtils.startActivity(this, LoginActivity.class);
+    Intent intent = new Intent();
+    intent.setClass(this, LoginActivity.class);
+    startActivity(intent);
     this.finish();
   }
 

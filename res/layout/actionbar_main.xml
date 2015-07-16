@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:background="@color/primary_color"
-    android:padding="@dimen/actionbar_main_padding" >
+    android:padding="@dimen/actionbar_padding" >
 
     <!-- Center location view -->
 

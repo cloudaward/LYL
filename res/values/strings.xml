@@ -2,44 +2,59 @@
 <resources>
 
     <string name="app_name">捞银两</string>
+    <string name="hello_world">Hello world!</string>
+    
     <string name="action_settings">设置</string>
-    <string name="action_share">分享</string>
-    <string name="drawer_open">打开</string>
-    <string name="drawer_close">关闭</string>
+    
     <string name="latest_online">最新上线</string>
     <string name="final_rushing">最后疯抢</string>
     <string name="coming_soon">即将上线</string>
+    
     <string name="settings">设置</string>
     <string name="messages">信息</string>
+    
     <string name="nickname">昵称</string>
     <string name="grade">等级</string>
-    <string name="personal_info_settings">个人信息设置</string>
-    <string name="my_account">我的账户</string>
-    <string name="joined_ads">我参与的广告</string>
-    <string name="published_ads">我发布的广告</string>
-    <string name="invite_friends_use">邀请好友使用</string>
-    <string name="feedback">意见反馈</string>
-    <string name="about">关于捞银两</string>
+    
     <string name="joined_task_number">参与的任务数</string>
     <string name="published_task_number">发布的任务数</string>
     <string name="awarded_total_money">赏金总额</string>
     <string name="balance_money">用户余额</string>
-    <string name="title_activity_regist">RegistActivity</string>
-    <string name="title_activity_login_register">LoginRegisterActivity</string>
+
     <string name="register">注册</string>
+    
     <string name="login">登录</string>
     <string name="thirdparty_login">第三方账号快速登录</string>
     <string name="weixin">微信</string>
     <string name="weibo">微博</string>
-    <string name="title_activity_login">LoginActivity</string>
     <string name="pls_input_username">请输入您的用户名</string>
     <string name="pls_input_password">请输入您的密码</string>
     <string name="forget_password">忘记密码?</string>
     <string name="menu_text">菜单文本</string>
     <string name="location">位置</string>
-    <string name="title">标题</string>
     <string name="login_success">登录成功</string>
-    <string name="username_not_found">用户不存在</string>
-    <string name="password_error">密码错误</string>
+    <string name="username_or_password_error">用户或密码错误</string>
+    <string name="avatar">头像</string>
 
+    <string name="title_activity_regist">注册</string>
+    <string name="title_activity_login_register">登录注册</string>
+    <string name="title_activity_personal_info_settings">个人信息设置</string>
+    <string name="title_activity_login">登录</string>
+    <string name="title_activity_my_accout">我的账户</string>
+    <string name="title_activity_joined_tasks">我参与的任务</string>
+    <string name="title_activity_published_tasks">我发布的任务</string>
+    <string name="title_activity_invite_friends_use">邀请好友使用</string>
+    <string name="title_activity_feedback">意见反馈</string>
+    <string name="title_activity_about">关于捞银两</string>
+    
+    <string name="cellphone">手机号</string>
+    <string name="gender">性别</string>
+    <string name="personal_base_info">个人基本信息</string>
+    <string name="thirdparty_auth_settings">第三方账号授权设置</string>
+    <string name="messages_settings">消息设置</string>
+    <string name="clear_cache">清除缓存</string>
+    <string name="score">给捞银两评分</string>
+    <string name="logout">退出当前账号</string>
+
+    <string name="back_pressed_again_quit">再按一次退出程序</string>
 </resources>

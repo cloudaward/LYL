@@ -1,25 +1,17 @@
 package com.cloudaward.lyl.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SharedPreferencesUtils {
-  
-  public static SharedPreferences getPrefs(Context context) { 
-    SharedPreferences prefs =  context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
-    return prefs;
-  }
 
-  public static void putString(Context context, String key, String value) {
-    SharedPreferences prefs = getPrefs(context);
+  public static void putString(SharedPreferences prefs, String key, String value) {
     Editor editor = prefs.edit();
     editor.putString(key, value);
     editor.apply();
   }
   
-  public static String getString(Context context, String key, String defValue) {
-    SharedPreferences prefs = getPrefs(context);
+  public static String getString(SharedPreferences prefs, String key, String defValue) {
     String value = prefs.getString(key, defValue);
     return value;
   }

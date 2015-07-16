@@ -3,12 +3,14 @@ package com.cloudaward.lyl;
 import java.util.Map;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 public class MainApplication extends Application {
 
@@ -18,24 +20,24 @@ public class MainApplication extends Application {
   private static final String COOKIE_KEY = "Cookie";
   private static final String SESSION_COOKIE = "u";
 
-  public static MainApplication instance;
+  private static MainApplication mInstance;
   private RequestQueue mRequestQueue;
+
+  private SharedPreferences mSharedPreferences;
 
   @Override
   public void onCreate() {
     super.onCreate();
-    instance = this;
-
+    mInstance = this;
+    mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+    mRequestQueue = Volley.newRequestQueue(getApplicationContext());
   }
 
   public synchronized static MainApplication getInstance() {
-    return instance;
+    return mInstance;
   }
 
   public RequestQueue getRequestQueue() {
-    if (mRequestQueue == null) {
-      mRequestQueue = Volley.newRequestQueue(getApplicationContext());
-    }
     return mRequestQueue;
   }
 
@@ -63,7 +65,9 @@ public class MainApplication extends Application {
         String[] splitCookie = cookie.split(";");
         String[] splitSessionId = splitCookie[0].split("=");
         cookie = splitSessionId[1];
-        SharedPreferencesUtils.putString(getApplicationContext(), SESSION_COOKIE, cookie);
+        Editor editor = mSharedPreferences.edit();
+        editor.putString(SESSION_COOKIE, cookie);
+        editor.commit();
       }
     }
   }
@@ -74,7 +78,7 @@ public class MainApplication extends Application {
    * @param headers
    */
   public final void addSessionCookie(Map<String, String> headers) {
-    String sessionId = SharedPreferencesUtils.getString(getApplicationContext(), SESSION_COOKIE, "");
+    String sessionId = mSharedPreferences.getString(SESSION_COOKIE, "");
     if (sessionId.length() > 0) {
       StringBuilder builder = new StringBuilder();
       builder.append(SESSION_COOKIE);
@@ -86,6 +90,10 @@ public class MainApplication extends Application {
       }
       headers.put(COOKIE_KEY, builder.toString());
     }
+  }
+
+  public SharedPreferences getSharedPreferences() {
+    return mSharedPreferences;
   }
 
 }
