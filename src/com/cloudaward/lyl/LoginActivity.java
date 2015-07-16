@@ -1,11 +1,12 @@
 package com.cloudaward.lyl;
 
+import java.net.URLEncoder;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -25,11 +26,13 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.cloudaward.lyl.beans.LoginContext;
+import com.cloudaward.lyl.consts.UrlConsts;
 import com.cloudaward.lyl.network.LylJSONObject;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
 import com.cloudaward.lyl.utils.ActivityUtils;
 import com.cloudaward.lyl.utils.Des3;
 import com.cloudaward.lyl.utils.MD5;
+import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -144,19 +147,18 @@ public class LoginActivity extends ActionBarActivity {
   }
 
   protected void login(LoginContext loginContext) {
-    String url = "http://www.laoyinliang.com/user/login";
     LylJSONObject jsonRequest = null;
     try {
       JSONObject data = new JSONObject();
-      data.put("username", loginContext.getAccount());
-      data.put("password", loginContext.getPassword());
+      data.put("account", URLEncoder.encode(loginContext.getAccount()));
+      data.put("password", URLEncoder.encode(loginContext.getPassword()));
       jsonRequest = new LylJSONObject(this, data);
     } catch (JSONException e) {
       Log.e(TAG, e.getMessage());
       return;
     }
     // @formatter:off
-    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.POST, url, jsonRequest,
+    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.POST, UrlConsts.loginUrl, jsonRequest,
         new Listener<JSONObject>() {
         
           @Override
@@ -168,10 +170,7 @@ public class LoginActivity extends ActionBarActivity {
               e.printStackTrace();
             }
             if(code == 0) {
-              SharedPreferences prefs =  getSharedPreferences("loginUser", Context.MODE_PRIVATE);
-              Editor editor = prefs.edit();
-              editor.putString("username", mUsernameEditText.getText().toString());
-              editor.apply();
+              SharedPreferencesUtils.putString(LoginActivity.this, "username", mUsernameEditText.getText().toString());
               ActivityUtils.startActivity(LoginActivity.this, MainActivity.class);
             }
             if(code == 1){
