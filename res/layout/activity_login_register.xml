@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_login"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/login_register_button_shape"
+        android:background="@drawable/shape_login_register_button"
         android:text="@string/register"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/login_button" />

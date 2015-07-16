@@ -1,6 +1,6 @@
 <resources>
 
-    <array name="navMenuItemIcons">
+    <array name="menu_item_icons">
         <item>@drawable/ic_personal_settings</item>
         <item>@drawable/ic_account</item>
         <item>@drawable/ic_joined_ads</item>
@@ -9,8 +9,8 @@
         <item>@drawable/ic_feedback</item>
         <item>@drawable/ic_about</item>
     </array>
-    
-    <string-array name="navMenuItemTexts">
+
+    <string-array name="menu_item_labels">
         <item>@string/personal_info_settings</item>
         <item>@string/my_account</item>
         <item>@string/joined_ads</item>
@@ -19,12 +19,19 @@
         <item>@string/feedback</item>
         <item>@string/about</item>
     </string-array>
-
-    <string-array name="userTaskTotalTexts">
+    
+    <string-array name="user_task_list_item_labels">
         <item>@string/joined_task_number</item>
         <item>@string/published_task_number</item>
         <item>@string/awarded_total_money</item>
         <item>@string/balance_money</item>
     </string-array>
     
+    <string-array name="user_task_list_item_label_alias">
+        <item>joinedTasks</item>
+        <item>publishedTasks</item>
+        <item>totalAwardMoney</item>
+        <item>balanceMoney</item>
+    </string-array>
+
 </resources>

@@ -22,21 +22,13 @@
         app:pstsUnderlineColor="@android:color/white" >
     </com.astuetz.PagerSlidingTabStrip>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:background="@android:color/white"
-        android:orientation="horizontal" >
-
-        <View
-            android:layout_width="@dimen/reside_menu_padding"
-            android:layout_height="fill_parent"
-            android:background="@android:color/white" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/viewpager_padding_leftright"
+        android:paddingRight="@dimen/viewpager_padding_leftright" >
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

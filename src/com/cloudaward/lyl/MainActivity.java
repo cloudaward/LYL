@@ -116,20 +116,21 @@ public class MainActivity extends BaseActivity {
   private void initResideMenu() {
 
     mResideMenu = new ResideMenu(this);
-    mResideMenu.setBackground(R.drawable.residemenu_background);
+    mResideMenu.setBackground(R.drawable.bg_residemenu);
     mResideMenu.attachToActivity(this);
     initResideMenuItems();
 
   }
 
   private void initResideMenuItems() {
-    TypedArray icons = getResources().obtainTypedArray(R.array.navMenuItemIcons);
-    String[] texts = getResources().getStringArray(R.array.navMenuItemTexts);
+    TypedArray icons = getResources().obtainTypedArray(R.array.menu_item_icons);
+    String[] labels = getResources().getStringArray(R.array.menu_item_labels);
     int length = icons.length();
     for (int i = 0; i < length; i++) {
       int icon = icons.getResourceId(i, R.drawable.ic_launcher);
-      ResideMenuItem item = new ResideMenuItem(getApplicationContext(), icon, texts[i], R.drawable.ic_forward);
+      ResideMenuItem item = new ResideMenuItem(getApplicationContext(), icon, labels[i], R.drawable.ic_forward);
       item.setOnClickListener(new ResideMenuItemOnClickedListener());
+      item.setBackgroundResource(R.drawable.menu_item_selector);
       mResideMenu.addMenuItem(item, ResideMenu.DIRECTION_LEFT);
     }
     icons.recycle();

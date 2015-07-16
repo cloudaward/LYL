@@ -2,7 +2,6 @@ package com.special.ResideMenu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -23,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudaward.lyl.R;
+import com.cloudaward.lyl.beans.UserTask;
+import com.cloudaward.lyl.beans.UserTask.UserTaskEntry;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -71,12 +72,11 @@ public class ResideMenu extends FrameLayout {
   private float mScaleValue = 0.5f;
 
   private ListView mUserTaskList;
-  private List<Entry<String, String>> mUserTaskItems;
   private ListAdapter mUserTaskListAdapter;
 
   private TextView mSettingsTextView;
   private TextView mMessagesTextView;
-  
+
   public ResideMenu(Context context) {
     super(context);
     initViews(context);
@@ -101,51 +101,36 @@ public class ResideMenu extends FrameLayout {
     initSettingsTextView();
 
     initMessagesTextView();
-    
+
   }
-  
+
   private void initUserTaskList() {
     mUserTaskList = (ListView) findViewById(R.id.taskTotalList);
-    initUserTaskTotalItems();
-    addUserTotalTaskItems();
-  }
-
-  private void addUserTotalTaskItems() {
-    mUserTaskListAdapter = new ListAdapter(getContext(), mUserTaskItems);
+    // TODO query from DB by user id
+    UserTask userTask = new UserTask();
+    String[] labels = getResources().getStringArray(R.array.user_task_list_item_labels);
+    String[] labelAlias = getResources().getStringArray(R.array.user_task_list_item_label_alias);
+    List<UserTaskEntry<String, String>> items = new ArrayList<UserTask.UserTaskEntry<String, String>>();
+    for (int i = 0; i < labels.length; i++) {
+      String key = labels[i];
+      String keyAlias = labelAlias[i];
+      Object value = userTask.getAttribute(keyAlias);
+      String strValue = value == null ? "0" : value.toString();
+      UserTaskEntry<String, String> entry = new UserTaskEntry<String, String>(key, strValue);
+      items.add(entry);
+    }
+    mUserTaskListAdapter = new ListAdapter(getContext(), items);
     mUserTaskList.setAdapter(mUserTaskListAdapter);
     mUserTaskList.setEnabled(false);
-  }
-
-  private void initUserTaskTotalItems() {
-    String[] labels = getResources().getStringArray(R.array.userTaskTotalTexts);
-    mUserTaskItems = new ArrayList<Map.Entry<String, String>>();
-    for (final String label : labels) {
-      mUserTaskItems.add(new Entry<String, String>() {
-        @Override
-        public String setValue(String object) {
-          return "0";
-        }
-
-        @Override
-        public String getValue() {
-          return "0";
-        }
-
-        @Override
-        public String getKey() {
-          return label;
-        }
-      });
-    }
   }
 
   private static class ListAdapter extends BaseAdapter {
 
     final Context context;
 
-    final List<Entry<String, String>> items;
+    List<UserTaskEntry<String, String>> items;
 
-    public ListAdapter(Context context, List<Entry<String, String>> items) {
+    public ListAdapter(Context context, List<UserTaskEntry<String, String>> items) {
       this.context = context;
       this.items = items;
     }
@@ -171,7 +156,7 @@ public class ResideMenu extends FrameLayout {
       if (convertView == null) {
         viewHolder = new ViewHolder();
         LayoutInflater inflater = LayoutInflater.from(context);
-        convertView = inflater.inflate(R.layout.list_item_user_task_total, parent, false);
+        convertView = inflater.inflate(R.layout.list_item_user_task, parent, false);
         viewHolder.mLabel = (TextView) convertView.findViewById(R.id.tv_label);
         viewHolder.mValue = (TextView) convertView.findViewById(R.id.tv_value);
         convertView.setTag(viewHolder);
@@ -180,7 +165,9 @@ public class ResideMenu extends FrameLayout {
       }
       final Entry<String, String> item = items.get(position);
       viewHolder.mLabel.setText(item.getKey());
+      // @formatter:off
       viewHolder.mValue.setText(item.getValue());
+      // @formatter:on
       return convertView;
     }
 
@@ -287,7 +274,7 @@ public class ResideMenu extends FrameLayout {
    */
   public void setShadowVisible(boolean isVisible) {
     if (isVisible)
-      imageViewShadow.setBackgroundResource(R.drawable.shadow);
+      imageViewShadow.setBackgroundResource(R.drawable.shadow_residemenu);
     else
       imageViewShadow.setBackgroundResource(0);
   }

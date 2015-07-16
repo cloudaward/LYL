@@ -1,9 +1,11 @@
 package com.cloudaward.lyl;
 
-import java.util.Map;
-
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -19,19 +21,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-import com.cloudaward.lyl.beans.ClientInfo;
 import com.cloudaward.lyl.beans.LoginContext;
+import com.cloudaward.lyl.network.LylJSONObject;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
 import com.cloudaward.lyl.utils.ActivityUtils;
 import com.cloudaward.lyl.utils.Des3;
 import com.cloudaward.lyl.utils.MD5;
-import com.cloudaward.lyl.utils.MapUtils;
-import com.cloudaward.lyl.utils.SystemUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -95,9 +93,10 @@ public class LoginActivity extends ActionBarActivity {
   }
 
   private void initUsernameEditText() {
-
     mUsernameEditText = (EditText) findViewById(R.id.it_username);
-
+    SharedPreferences prefs = getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+    String username = prefs.getString("username", "");
+    mUsernameEditText.setText(username);
     mUsernameEditText.addTextChangedListener(new TextWatcher() {
 
       @Override
@@ -146,30 +145,41 @@ public class LoginActivity extends ActionBarActivity {
 
   protected void login(LoginContext loginContext) {
     String url = "http://www.laoyinliang.com/user/login";
-    Map<String, String> map = MapUtils.toMap(loginContext);
-    JSONObject jsonObject = new JSONObject(map);
-    url += "?" + "data=" + jsonObject.toString();
-    
-    ClientInfo clientInfo = new ClientInfo();
-    clientInfo.setPlatform("2");
-    clientInfo.setUuid(SystemUtils.getUUID(this));
-    clientInfo.setOsVersion(android.os.Build.VERSION.RELEASE);
-    // TODO
-    clientInfo.setChannel("unknown");
-    clientInfo.setScreen(SystemUtils.getScreenSize(this));
-    clientInfo.setLocation("unknown");
-    map = MapUtils.toMap(clientInfo);
-    jsonObject = new JSONObject(map);
-    url += "&" + "c=" + jsonObject.toString();
-    
+    LylJSONObject jsonRequest = null;
+    try {
+      JSONObject data = new JSONObject();
+      data.put("username", loginContext.getAccount());
+      data.put("password", loginContext.getPassword());
+      jsonRequest = new LylJSONObject(this, data);
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+      return;
+    }
     // @formatter:off
-    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.GET, url, null, 
+    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.POST, url, jsonRequest,
         new Listener<JSONObject>() {
         
           @Override
           public void onResponse(JSONObject response) {
-            Log.d(TAG, response.toString());
-            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+            int code = -1;
+            try {
+              code = response.getInt("code");
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+            if(code == 0) {
+              SharedPreferences prefs =  getSharedPreferences("loginUser", Context.MODE_PRIVATE);
+              Editor editor = prefs.edit();
+              editor.putString("username", mUsernameEditText.getText().toString());
+              editor.apply();
+              ActivityUtils.startActivity(LoginActivity.this, MainActivity.class);
+            }
+            if(code == 1){
+              Toast.makeText(LoginActivity.this, getResources().getString(R.string.password_error), Toast.LENGTH_SHORT).show();
+            }
+            else if(code == 2) {
+              Toast.makeText(LoginActivity.this, getResources().getString(R.string.username_not_found), Toast.LENGTH_SHORT).show();
+            } 
           }
         }, 
         new ErrorListener() {
@@ -179,9 +189,8 @@ public class LoginActivity extends ActionBarActivity {
             Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             Log.d(TAG, error.getMessage());
           }
-        }, LoginActivity.this);
-    RequestQueue requestQueue = Volley.newRequestQueue(LoginActivity.this);
-    requestQueue.add(request);
+        });
+    MainApplication.getInstance().getRequestQueue().add(request);
     // @formatter:on
     Log.d(TAG, request.toString());
   }

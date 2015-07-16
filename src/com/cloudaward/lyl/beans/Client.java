@@ -1,22 +1,34 @@
 package com.cloudaward.lyl.beans;
 
+import android.content.Context;
+
+import com.cloudaward.lyl.utils.SystemUtils;
 
 
-public class ClientInfo {
+public class Client {
 
-  private String platform = "2"; // android
-  
+  private String platform;
+
   private String uuid;
-  
+
   private String osVersion;
 
   private String clientVersion;
-  
+
   private String channel;
-  
+
   private String screen;
-  
+
   private String location;
+
+  public Client(Context context) {
+    this.platform = "2";
+    this.uuid = SystemUtils.getUUID(context);
+    this.osVersion = android.os.Build.VERSION.RELEASE;
+    this.channel = "unknown";
+    this.screen = SystemUtils.getScreenSize(context);
+    this.location = "unknown";
+  }
 
   public String getPlatform() {
     return platform;
@@ -73,7 +85,5 @@ public class ClientInfo {
   public void setLocation(String location) {
     this.location = location;
   }
-  
-  
-  
+
 }
