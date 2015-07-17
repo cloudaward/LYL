@@ -36,7 +36,7 @@ public class PersonalInfoSettingsActivity extends ActionBarActivity implements O
     
     mSessionManager = new SessionManager(this);
     
-    ActionBarUtils.initGeneralActionBar(this, getTitle());
+    ActionBarUtils.initGeneralActionBar(this);
     
     mAvatarLayout = (RelativeLayout) findViewById(R.id.layout_avatar);
     mAvatarLayout.setOnClickListener(this);

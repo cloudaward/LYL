@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request.Method;
@@ -45,6 +46,8 @@ public class LoginActivity extends ActionBarActivity {
   private EditText mUsernameEditText;
 
   private EditText mPasswordEditText;
+  
+  private TextView mRegisterTextView;
 
   private static SparseArray<String> errorMsg = new SparseArray<String>();
 
@@ -69,11 +72,26 @@ public class LoginActivity extends ActionBarActivity {
     initUsernameEditText();
 
     initPasswordEditText();
+    
+    initRegisterTextView();
 
   }
 
+  private void initRegisterTextView() {
+    mRegisterTextView = (TextView) findViewById(R.id.tv_register);
+    mRegisterTextView.setOnClickListener(new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent();
+        intent.setClass(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+      }
+    });
+  }
+
   private void initActionBar() {
-    ActionBarUtils.initGeneralActionBar(this, getResources().getString(R.string.login));
+    ActionBarUtils.initGeneralActionBar(this);
   }
 
   private void initPasswordEditText() {
@@ -153,7 +171,7 @@ public class LoginActivity extends ActionBarActivity {
 
   }
 
-  protected void login(LoginContext loginContext) {
+  private void login(LoginContext loginContext) {
     LylJSONObject jsonRequest = null;
     try {
       JSONObject data = new JSONObject();

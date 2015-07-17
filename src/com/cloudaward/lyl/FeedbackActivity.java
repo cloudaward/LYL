@@ -15,7 +15,7 @@ public class FeedbackActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_feedback);
-    ActionBarUtils.initGeneralActionBar(this, getTitle());
+    ActionBarUtils.initGeneralActionBar(this);
   }
 
   @Override

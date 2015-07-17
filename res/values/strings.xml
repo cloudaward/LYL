@@ -3,26 +3,19 @@
 
     <string name="app_name">捞银两</string>
     <string name="hello_world">Hello world!</string>
-    
     <string name="action_settings">设置</string>
-    
     <string name="latest_online">最新上线</string>
     <string name="final_rushing">最后疯抢</string>
     <string name="coming_soon">即将上线</string>
-    
     <string name="settings">设置</string>
     <string name="messages">信息</string>
-    
     <string name="nickname">昵称</string>
     <string name="grade">等级</string>
-    
     <string name="joined_task_number">参与的任务数</string>
     <string name="published_task_number">发布的任务数</string>
     <string name="awarded_total_money">赏金总额</string>
     <string name="balance_money">用户余额</string>
-
     <string name="register">注册</string>
-    
     <string name="login">登录</string>
     <string name="thirdparty_login">第三方账号快速登录</string>
     <string name="weixin">微信</string>
@@ -35,7 +28,6 @@
     <string name="login_success">登录成功</string>
     <string name="username_or_password_error">用户或密码错误</string>
     <string name="avatar">头像</string>
-
     <string name="title_activity_regist">注册</string>
     <string name="title_activity_login_register">登录注册</string>
     <string name="title_activity_personal_info_settings">个人信息设置</string>
@@ -46,7 +38,7 @@
     <string name="title_activity_invite_friends_use">邀请好友使用</string>
     <string name="title_activity_feedback">意见反馈</string>
     <string name="title_activity_about">关于捞银两</string>
-    
+    <string name="title_activity_complete_base_info">完成基础信息</string>
     <string name="cellphone">手机号</string>
     <string name="gender">性别</string>
     <string name="personal_base_info">个人基本信息</string>
@@ -55,6 +47,31 @@
     <string name="clear_cache">清除缓存</string>
     <string name="score">给捞银两评分</string>
     <string name="logout">退出当前账号</string>
-
     <string name="back_pressed_again_quit">再按一次退出程序</string>
+    <string name="make_sure_right_cellphone_number">手机号码作为您的登录号，请确保正确性</string>
+    <string name="next_step">下一步</string>
+    <string name="china_default_zipcode">+86</string>
+    <string name="agreement">我同意《捞银两的隐私和服务条款》</string>
+    <string name="cellphone_number_not_null">手机号不能为空</string>
+    <string name="title_activity_set_accout_password">设置账号密码</string>
+    <string name="already_send_captcha">验证码已发送到您的手机，请耐心等待</string>
+    <string name="input_captcha">输入验证码</string>
+    <string name="input_password">设置您的密码，不少于6位</string>
+    <string name="input_password_again">再次输入密码</string>
+    <string name="resend">重新发送</string>
+    <string name="captcha_not_null">验证码不能为空</string>
+    <string name="password_not_null">密码不能为空</string>
+    <string name="password_again_not_null">密码不能为空</string>
+    <string name="password_not_consistency">前后两次输入的密码不一致</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="set_nickname">设置您的昵称</string>
+    <string name="complete">完成</string>
+    <string name="pls_input_your_nickname">请输入您的昵称</string>
+    <string name="take_from_camera">拍照</string>
+    <string name="select_from_gallery">从相册选择</string>
+    <string name="without_capture_app">没有发现可以拍摄的应用</string>
+    <string name="nickname_not_null">昵称不能为空</string>
+    <string name="pls_upload_avatar">请点击头像上传您的头像</string>
+
 </resources>

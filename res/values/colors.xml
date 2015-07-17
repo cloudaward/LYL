@@ -1,8 +1,7 @@
 <resources>
 
-    <!-- <color name="primary_color">#ff4a21</color> -->
     <color name="primary_color">#ff6633</color>
-    <color name="background_tab_pressed">#ace144</color>
+    <color name="background_tab_pressed">#ffffff</color>
     <color name="gray_1">#ecf0f1</color>
     <color name="gray_2">#a9b7b7</color>
     <color name="login_button">#2ca2f9</color>

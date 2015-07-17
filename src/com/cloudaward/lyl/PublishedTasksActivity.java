@@ -15,7 +15,7 @@ public class PublishedTasksActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_published_tasks);
-    ActionBarUtils.initGeneralActionBar(this, getTitle());
+    ActionBarUtils.initGeneralActionBar(this);
   }
 
   @Override

@@ -15,7 +15,7 @@ public class JoinedTasksActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_joined_tasks);
-    ActionBarUtils.initGeneralActionBar(this, getTitle());
+    ActionBarUtils.initGeneralActionBar(this);
   }
 
   @Override

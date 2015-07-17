@@ -15,7 +15,7 @@ public class AboutActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_about);
-    ActionBarUtils.initGeneralActionBar(this, getTitle());
+    ActionBarUtils.initGeneralActionBar(this);
   }
 
   @Override

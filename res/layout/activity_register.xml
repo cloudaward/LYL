@@ -8,4 +8,79 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.cloudaward.lyl.RegisterActivity" >
 
+    <TextView
+        android:id="@+id/tv_right_cellphone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:padding="4dp"
+        android:singleLine="true"
+        android:text="@string/make_sure_right_cellphone_number"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_cellphone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_right_cellphone_number"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/et_cellphone_zipcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:ems="3"
+            android:gravity="center"
+            android:inputType="phone"
+            android:text="@string/china_default_zipcode" >
+        </EditText>
+
+        <EditText
+            android:id="@+id/et_cellphone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/et_cellphone_zipcode"
+            android:layout_toEndOf="@+id/et_cellphone_zipcode"
+            android:ems="11"
+            android:gravity="start|center_vertical"
+            android:inputType="phone"
+            android:maxLength="11" >
+
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_next_step"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_cellphone"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="24dp"
+        android:background="@color/primary_color"
+        android:gravity="center"
+        android:text="@string/next_step"
+        android:textAppearance="?android:attr/textAppearanceMediumInverse" />
+
+    <CheckBox
+        android:id="@+id/cb_agreement"
+        android:layout_alignLeft="@+id/btn_next_step"
+        android:layout_alignStart="@+id/btn_next_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_next_step"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/agreement" />
+
 </RelativeLayout>
