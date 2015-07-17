@@ -73,5 +73,6 @@
     <string name="without_capture_app">没有发现可以拍摄的应用</string>
     <string name="nickname_not_null">昵称不能为空</string>
     <string name="pls_upload_avatar">请点击头像上传您的头像</string>
+    <string name="agreement_goon">同意《捞银两的隐私和服务条款》，完成注册</string>
 
 </resources>

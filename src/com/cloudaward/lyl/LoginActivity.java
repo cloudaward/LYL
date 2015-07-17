@@ -48,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
   private EditText mPasswordEditText;
   
   private TextView mRegisterTextView;
-
+  
   private static SparseArray<String> errorMsg = new SparseArray<String>();
 
   private SessionManager mSessionManager;
@@ -74,7 +74,6 @@ public class LoginActivity extends ActionBarActivity {
     initPasswordEditText();
     
     initRegisterTextView();
-
   }
 
   private void initRegisterTextView() {

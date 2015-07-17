@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,7 +42,9 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
   private EditText mCellphoneNumberEditText;
 
   private Button mNextStepButton;
-
+  
+  private CheckBox mAgreementCheckedTextView;
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -73,6 +76,8 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
       }
     });
 
+    mAgreementCheckedTextView = (CheckBox) findViewById(R.id.cb_agreement);
+    
     mNextStepButton = (Button) findViewById(R.id.btn_next_step);
     mNextStepButton.setOnClickListener(this);
   }
@@ -103,6 +108,10 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
       if (TextUtils.isEmpty(mCellphoneNumberEditText.getText())) {
         Toast.makeText(this, getResources().getString(R.string.cellphone_number_not_null), Toast.LENGTH_SHORT).show();
         mCellphoneNumberEditText.requestFocus();
+        return;
+      }
+      if (!mAgreementCheckedTextView.isChecked()) {
+        Toast.makeText(this, getResources().getString(R.string.agreement_goon), Toast.LENGTH_SHORT).show();
         return;
       }
       String zipcode = mCellphoneZipcodeEditText.getText() != null ? mCellphoneZipcodeEditText.getText().toString() : "";
