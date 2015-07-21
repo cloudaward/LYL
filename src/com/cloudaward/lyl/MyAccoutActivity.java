@@ -1,15 +1,13 @@
 package com.cloudaward.lyl;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.cloudaward.lyl.utils.ActionBarUtils;
 
 
-@SuppressWarnings("deprecation")
-public class MyAccoutActivity extends ActionBarActivity {
+public class MyAccoutActivity extends AbstractCheckLoginActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

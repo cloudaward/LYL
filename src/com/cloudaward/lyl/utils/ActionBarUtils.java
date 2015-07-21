@@ -17,6 +17,11 @@ public class ActionBarUtils {
 
   @SuppressLint("InflateParams")
   public static void initGeneralActionBar(final ActionBarActivity activity) {
+    initGeneralActionBar(activity, null);
+  }
+  
+  @SuppressLint("InflateParams")
+  public static void initGeneralActionBar(final ActionBarActivity activity, OnClickListener backListener) {
     ActionBar actionBar = activity.getSupportActionBar();
     View view = LayoutInflater.from(activity).inflate(R.layout.actionbar_general, null);
     ActionBar.LayoutParams params =
@@ -25,13 +30,16 @@ public class ActionBarUtils {
     TextView titleTextView = (TextView) view.findViewById(R.id.tv_title);
     titleTextView.setText(activity.getTitle());
     ImageView backImageView = (ImageView) view.findViewById(R.id.iv_back);
-    backImageView.setOnClickListener(new OnClickListener() {
-      
-      @Override
-      public void onClick(View v) {
-        activity.finish();
-      }
-    });
+    if(backListener == null) {
+      backListener = new OnClickListener() {
+        
+        @Override
+        public void onClick(View v) {
+          activity.finish();
+        }
+      };
+    }
+    backImageView.setOnClickListener(backListener);
     actionBar.setCustomView(view, params);
     actionBar.setDisplayShowCustomEnabled(true);
   }

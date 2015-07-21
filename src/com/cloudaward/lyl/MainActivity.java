@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ import com.special.ResideMenu.ResideMenuItem;
  */
 
 public class MainActivity extends BaseActivity implements OnClickListener {
-
+  
   // The left side bar
   // @formatter:off
   private ResideMenu mResideMenu;
@@ -57,6 +58,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
   // The view pager and fragments
   // @formatter:off
+  private LinearLayout mViewPagerLayout;
   private FragmentPagerAdapter mFragmentPagerAdapter;
   private ViewPager mViewPager;
   private com.astuetz.PagerSlidingTabStrip mPagerSlidingTabStrip;
@@ -66,8 +68,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
   private Fragment mComingFragment;
   // @formatter:on
 
-  private SessionManager mSessionManager;
-  
   private long exitTime = 0;
   private static final long quitInterval = 2000;
   
@@ -75,8 +75,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-
-    mSessionManager = new SessionManager(this);
 
     // Initialize reside menu
     initResideMenu();
@@ -89,12 +87,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     
   }
   
-  @Override
-  protected void onStart() {
-    mSessionManager.checkLogin();
-    super.onStart();
-  }
-
   private void initActionBar() {
     // Hide action bar
     getSupportActionBar().hide();
@@ -305,6 +297,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
         getResources().getString(R.string.coming_soon),
     });
     // @formatter:on
+    mViewPagerLayout = (LinearLayout) findViewById(R.id.layout_view_pager);
     mViewPager = (ViewPager) findViewById(R.id.viewPager);
     mFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
     mViewPager.setAdapter(mFragmentPagerAdapter);
@@ -312,7 +305,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
     mPagerSlidingTabStrip = (PagerSlidingTabStrip) findViewById(R.id.pagerSlidingTabStrip);
     mPagerSlidingTabStrip.setViewPager(mViewPager);
 
-    mResideMenu.addIgnoredView(mViewPager);
+    mResideMenu.addIgnoredView(mViewPagerLayout);
   }
 
   @Override
@@ -382,8 +375,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
       if ((System.currentTimeMillis() - exitTime) > quitInterval) {
-        Toast.makeText(getApplicationContext(),
-            getResources().getString(R.string.back_pressed_again_quit), Toast.LENGTH_SHORT).show();
+        String message = getResources().getString(R.string.back_pressed_again_quit);
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         exitTime = System.currentTimeMillis();
       } else {
         finish();

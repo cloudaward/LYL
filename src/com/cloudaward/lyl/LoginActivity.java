@@ -46,9 +46,9 @@ public class LoginActivity extends ActionBarActivity {
   private EditText mUsernameEditText;
 
   private EditText mPasswordEditText;
-  
+
   private TextView mRegisterTextView;
-  
+
   private static SparseArray<String> errorMsg = new SparseArray<String>();
 
   private SessionManager mSessionManager;
@@ -65,21 +65,27 @@ public class LoginActivity extends ActionBarActivity {
 
     mSessionManager = new SessionManager(this);
 
-    initActionBar();
+    ActionBarUtils.initGeneralActionBar(this, new OnClickListener() {
+      
+      @Override
+      public void onClick(View v) {
+        onBackPressed();
+      }
+    });
 
     initLoginButton();
 
     initUsernameEditText();
 
     initPasswordEditText();
-    
+
     initRegisterTextView();
   }
 
   private void initRegisterTextView() {
     mRegisterTextView = (TextView) findViewById(R.id.tv_register);
     mRegisterTextView.setOnClickListener(new OnClickListener() {
-      
+
       @Override
       public void onClick(View v) {
         Intent intent = new Intent();
@@ -87,10 +93,6 @@ public class LoginActivity extends ActionBarActivity {
         startActivity(intent);
       }
     });
-  }
-
-  private void initActionBar() {
-    ActionBarUtils.initGeneralActionBar(this);
   }
 
   private void initPasswordEditText() {
@@ -194,14 +196,10 @@ public class LoginActivity extends ActionBarActivity {
               e.printStackTrace();
             }
             if(code == 0) {
-              mSessionManager.createLoginSession(mUsernameEditText.getText().toString());
-              Intent intent = new Intent();
-              intent.setClass(LoginActivity.this, MainActivity.class);
-              startActivity(intent);
-              finish();
-              return;
+              loginSuccess();
+            } else {
+              loginFail(code);
             }
-            loginError(code);
           }
         }, 
         new ErrorListener() {
@@ -217,7 +215,16 @@ public class LoginActivity extends ActionBarActivity {
     Log.d(TAG, request.toString());
   }
 
-  private void loginError(int errorCode) {
+  private void loginSuccess() {
+    mSessionManager.createLoginSession(mUsernameEditText.getText().toString());
+    Intent intent = new Intent(this, MainActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+    finish();
+  }
+
+  private void loginFail(int errorCode) {
     // @formatter:off
     Toast.makeText(this, getResources().getString(R.string.username_or_password_error), Toast.LENGTH_SHORT).show();
     // @formatter:on
@@ -244,9 +251,11 @@ public class LoginActivity extends ActionBarActivity {
   
   @Override
   public void onBackPressed() {
-    Intent intent = new Intent();
-    intent.setClass(LoginActivity.this, LoginRegisterActivity.class);
+    Intent intent = new Intent(this, MainActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
-    finish();
+    super.onBackPressed();
   }
+
 }

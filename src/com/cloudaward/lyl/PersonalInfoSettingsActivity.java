@@ -1,7 +1,6 @@
 package com.cloudaward.lyl;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,8 +11,7 @@ import android.widget.RelativeLayout;
 import com.cloudaward.lyl.utils.ActionBarUtils;
 
 
-@SuppressWarnings("deprecation")
-public class PersonalInfoSettingsActivity extends ActionBarActivity implements OnClickListener {
+public class PersonalInfoSettingsActivity extends AbstractCheckLoginActivity implements OnClickListener {
   
   private RelativeLayout mAvatarLayout;
   private RelativeLayout mNicknameLayout;
@@ -27,14 +25,10 @@ public class PersonalInfoSettingsActivity extends ActionBarActivity implements O
   
   private Button mLogoutButton;
   
-  private SessionManager mSessionManager;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_personal_info_settings);
-    
-    mSessionManager = new SessionManager(this);
     
     ActionBarUtils.initGeneralActionBar(this);
     

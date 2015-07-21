@@ -30,11 +30,11 @@
         <!-- Begin the top avatar and task list and menu list -->
 
         <LinearLayout
+            android:id="@+id/layout_top"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/layout_left_menu"
             android:orientation="vertical" >
-
-            <!-- Top Avatar & nickname & grade -->
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -87,24 +87,20 @@
                 android:padding="@dimen/avatar_padding"
                 android:scrollbars="none" >
             </ListView>
-
-            <!-- Separator line -->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white" />
-
-            <!-- Navigation menu list -->
-
-            <LinearLayout
-                android:id="@+id/layout_left_menu"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-            </LinearLayout>
         </LinearLayout>
-        <!-- // End the top avatar and task list and menu list -->
+        <!-- // End the top avatar and task list -->
+
+
+        <!-- Begin the center navigation menu list -->
+
+        <LinearLayout
+            android:id="@+id/layout_left_menu"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/layout_bottom_panel"
+            android:orientation="vertical" >
+        </LinearLayout>
+        <!-- // End the center navigation menu list -->
 
 
         <!-- Begin the bottom settings and messages panel -->
@@ -133,8 +129,8 @@
                     android:drawableStart="@drawable/ic_settings"
                     android:gravity="center"
                     android:text="@string/settings"
-					android:textSize="@dimen/settings_messages_text_size"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/settings_messages_text_size" />
             </LinearLayout>
 
             <LinearLayout
@@ -152,14 +148,12 @@
                     android:drawableStart="@drawable/ic_messages"
                     android:gravity="center"
                     android:text="@string/messages"
-					android:textSize="@dimen/settings_messages_text_size"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/settings_messages_text_size" />
             </LinearLayout>
         </LinearLayout>
-        <!-- Begin the bottom settings and messages panel -->
+        <!-- End the bottom settings and messages panel -->
     </RelativeLayout>
-    <!-- End the left sliding menu -->
-
 
     <!-- Begin the right sliding menu -->
 

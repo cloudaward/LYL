@@ -145,6 +145,14 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
             }
             if(code == 0) {
               requestCaptchaOK(encodedCellphoneNumber);
+            } else {
+              Log.i(TAG, response.toString());
+              try {
+                String message = response.getString("msg");
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+              } catch (JSONException e) {
+                Log.e(TAG, e.getMessage());
+              }
             }
           }
 

@@ -7,28 +7,35 @@
 
     <include layout="@layout/actionbar_main" />
 
-    <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/pagerSlidingTabStrip"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/pagerSlidingTabStrip_height"
-        android:background="@color/gray_1"
-        android:textSize="14sp"
-        app:pstsDividerColor="@android:color/transparent"
-        app:pstsIndicatorColor="@color/primary_color"
-        app:pstsIndicatorHeight="2dp"
-        app:pstsSelectedTabTextColor="@color/primary_color"
-        app:pstsShouldExpand="true"
-        app:pstsTabPaddingLeftRight="4dp"
-        app:pstsUnderlineColor="@android:color/white" >
-    </com.astuetz.PagerSlidingTabStrip>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:background="@android:color/white"
+    <LinearLayout
+        android:id="@+id/layout_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/viewpager_padding_leftright"
-        android:paddingRight="@dimen/viewpager_padding_leftright" >
-    </android.support.v4.view.ViewPager>
+        android:orientation="vertical" >
+
+        <com.astuetz.PagerSlidingTabStrip
+            android:id="@+id/pagerSlidingTabStrip"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pagerSlidingTabStrip_height"
+            android:background="@color/gray_1"
+            android:textSize="14sp"
+            app:pstsDividerColor="@android:color/transparent"
+            app:pstsIndicatorColor="@color/primary_color"
+            app:pstsIndicatorHeight="2dp"
+            app:pstsSelectedTabTextColor="@color/primary_color"
+            app:pstsShouldExpand="true"
+            app:pstsTabPaddingLeftRight="4dp"
+            app:pstsUnderlineColor="@android:color/white" >
+        </com.astuetz.PagerSlidingTabStrip>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:paddingLeft="@dimen/viewpager_padding_leftright"
+            android:paddingRight="@dimen/viewpager_padding_leftright" >
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
 
 </LinearLayout>

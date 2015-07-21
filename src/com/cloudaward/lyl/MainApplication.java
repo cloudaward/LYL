@@ -6,9 +6,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Build;
-import android.os.StrictMode;
-import android.provider.SyncStateContract.Constants;
 import android.text.TextUtils;
 
 import com.android.volley.Request;
@@ -20,14 +17,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 public class MainApplication extends Application {
-
   public static final String TAG = MainActivity.class.getSimpleName();
-
   private static final String SET_COOKIE_KEY = "Set-Cookie";
   private static final String COOKIE_KEY = "Cookie";
   private static final String SESSION_COOKIE = "u";
+  private static final String PREFS_KEY_COOKIE = "PREFS_COOKIE";
 
   private static MainApplication mInstance;
+
   private RequestQueue mRequestQueue;
 
   private SharedPreferences mSharedPreferences;
@@ -36,7 +33,7 @@ public class MainApplication extends Application {
   public void onCreate() {
     super.onCreate();
     mInstance = this;
-    mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+    mSharedPreferences = getSharedPreferences(PREFS_KEY_COOKIE, Context.MODE_PRIVATE);
     mRequestQueue = Volley.newRequestQueue(getApplicationContext());
     initImageLoader(getApplicationContext());
   }

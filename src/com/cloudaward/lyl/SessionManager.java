@@ -34,13 +34,15 @@ public class SessionManager {
     mEditor.commit();
   }
 
-  public void checkLogin() {
+  public boolean checkLogin() {
     if (!isLoggedin()) {
       Intent intent = new Intent(mContext, LoginActivity.class);
       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       mContext.startActivity(intent);
+      return true;
     }
+    return false;
   }
 
   public boolean isLoggedin() {

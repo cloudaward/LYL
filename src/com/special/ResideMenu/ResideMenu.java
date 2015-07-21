@@ -17,11 +17,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudaward.lyl.R;
+import com.cloudaward.lyl.SessionManager;
 import com.cloudaward.lyl.beans.UserTask;
 import com.cloudaward.lyl.beans.UserTask.UserTaskEntry;
 import com.nineoldandroids.animation.Animator;
@@ -71,14 +73,18 @@ public class ResideMenu extends FrameLayout {
   // Valid scale factor is between 0.0f and 1.0f.
   private float mScaleValue = 0.5f;
 
+  private LinearLayout mTopLayout;
   private ListView mUserTaskList;
   private ListAdapter mUserTaskListAdapter;
 
   private TextView mSettingsTextView;
   private TextView mMessagesTextView;
+  
+  private SessionManager mSessionManager;
 
   public ResideMenu(Context context) {
     super(context);
+    mSessionManager = new SessionManager(context);
     initViews(context);
   }
 
@@ -95,6 +101,7 @@ public class ResideMenu extends FrameLayout {
     layoutLeftMenu = (ViewGroup) findViewById(R.id.layout_left_menu);
     layoutRightMenu = (ViewGroup) findViewById(R.id.layout_right_menu);
     imageViewBackground = (ImageView) findViewById(R.id.iv_background);
+    mTopLayout = (LinearLayout) findViewById(R.id.layout_top);
 
     initUserTaskList();
 
@@ -102,6 +109,9 @@ public class ResideMenu extends FrameLayout {
 
     initMessagesTextView();
 
+    if(!mSessionManager.isLoggedin()) {
+      mTopLayout.setVisibility(GONE);
+    }
   }
 
   private void initUserTaskList() {

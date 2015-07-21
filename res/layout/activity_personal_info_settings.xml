@@ -190,7 +190,7 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="8dp"
+        android:layout_height="16dp"
         android:background="@color/gray_1" />
 
     <LinearLayout
@@ -322,7 +322,7 @@
 
     <View
         android:layout_width="fill_parent"
-        android:layout_height="8dp"
+        android:layout_height="16dp"
         android:background="@color/gray_1" />
 
     <Button
@@ -337,7 +337,7 @@
     
     <View
         android:layout_width="fill_parent"
-        android:layout_height="4dp"
+        android:layout_height="match_parent"
         android:background="@color/gray_1" />
 
 </LinearLayout>
