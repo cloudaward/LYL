@@ -40,6 +40,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +50,7 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
+import com.cloudaward.lyl.consts.AppPrefsConsts;
 import com.cloudaward.lyl.consts.UrlConsts;
 import com.cloudaward.lyl.network.LylJSONObject;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
@@ -57,6 +58,7 @@ import com.cloudaward.lyl.network.MultipartRequest;
 import com.cloudaward.lyl.utils.ActionBarUtils;
 import com.cloudaward.lyl.utils.DimenUtils;
 import com.cloudaward.lyl.utils.ImageUtils;
+import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -71,22 +73,28 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
   private static final int CROP_FROM_CAMERA = 2;
   private static final int PICK_FROM_FILE = 3;
 
-
   private ImageView mAvatarImageView;
   private Uri mImageCaptureUri;
   private AlertDialog mCaptureDialog;
 
-  private String uploadedAvatarUrl;
+  private String mAvatarUrl;
+  
+  private String mAvatarWholeUrl;
 
   private EditText mNicknameEditText;
 
   private RadioGroup mGenderRadioGroup;
+  private RadioButton mMaleRadioButton;
+  private RadioButton mFemaleRadioButton;
 
   private Button mCompleteButton;
+  
+  private SessionManager mSessionManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    mSessionManager = new SessionManager(this);
     setContentView(R.layout.activity_complete_base_info);
     ActionBarUtils.initGeneralActionBar(this);
     mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
@@ -96,6 +104,8 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
     mNicknameEditText = (EditText) findViewById(R.id.et_nickname);
 
     mGenderRadioGroup = (RadioGroup) findViewById(R.id.rg_gender);
+    mMaleRadioButton = (RadioButton) findViewById(R.id.rb_male);
+    mFemaleRadioButton = (RadioButton) findViewById(R.id.rb_female);
 
     mCompleteButton = (Button) findViewById(R.id.btn_complete);
     mCompleteButton.setOnClickListener(this);
@@ -104,32 +114,20 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
   @Override
   protected void onStart() {
     super.onStart();
-    SharedPreferences prefs = getAvatarSharedPrefs();
-    String avatarUrl = prefs.getString("avatarUrl", "");
-    if (avatarUrl != null) {
-      displayAvatar(avatarUrl);
+    SharedPreferences prefs = SharedPreferencesUtils.getPreferences(getApplicationContext(), AppPrefsConsts.PREFS_USER);
+    mAvatarWholeUrl = prefs.getString(AppPrefsConsts.PREFS_USER_KEY_AVATAR_WHOLE_URL, "");
+    mAvatarUrl = prefs.getString(AppPrefsConsts.PREFS_USER_KEY_AVATAR_URL, "");
+    if (mAvatarWholeUrl != null) {
+      ImageUtils.displayAvatar(mAvatarImageView, mAvatarWholeUrl);
+    }
+    mNicknameEditText.setText(prefs.getString(AppPrefsConsts.PREFS_USER_KEY_NICKNAME, ""));
+    int gender = prefs.getInt(AppPrefsConsts.PREFS_USER_KEY_GENDER, 1);
+    if(gender == 1) {
+      mMaleRadioButton.setChecked(true);
+    } else {
+      mFemaleRadioButton.setChecked(true);
     }
     // @formatter:off
-  }
-
-  private SharedPreferences getAvatarSharedPrefs() {
-    SharedPreferences prefs = getSharedPreferences("avatar", MODE_PRIVATE);
-    return prefs;
-  }
-
-  private void displayAvatar(String url) {
-    ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
-      @Override
-      public void onResponse(Bitmap bitmap) {
-        RoundedBitmapDrawable drawable = ImageUtils.getCircleBitmap(getApplicationContext(), bitmap);
-        mAvatarImageView.setImageDrawable(drawable);
-      }
-    }, 0, 0, null, new Response.ErrorListener() {
-      public void onErrorResponse(VolleyError error) {
-        mAvatarImageView.setImageResource(R.drawable.ic_avatar);
-      }
-    });
-    MainApplication.getInstance().getRequestQueue().add(request);
   }
 
   @Override
@@ -158,60 +156,75 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
       mCaptureDialog.show();
     }
     else if(v == mCompleteButton) {
-      if(TextUtils.isEmpty(mNicknameEditText.getEditableText())) {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.nickname), Toast.LENGTH_SHORT).show();
-        return;
-      }
-      if(uploadedAvatarUrl == null) {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.pls_upload_avatar), Toast.LENGTH_SHORT).show();
-        return;
-      }
-      int checkedId = mGenderRadioGroup.getCheckedRadioButtonId();
-      int gender = checkedId == 0 ? 1: 2;
-      LylJSONObject jsonRequest = null;
-      JSONObject data = new JSONObject();
-      try {
-        data.put("head", uploadedAvatarUrl);
-        data.put("sex", gender);
-        data.put("nickName", mNicknameEditText.getText().toString());
-        jsonRequest = new LylJSONObject(this, data);
-      } catch (JSONException e) {
-        Log.e(TAG, e.getMessage());
-        return;
-      }
-      // @formatter:off
-      LylJsonObjectRequest request = new LylJsonObjectRequest(Method.POST, UrlConsts.completeBaseInfoUrl, jsonRequest, 
-        new Listener<JSONObject>() {
-          @Override
-          public void onResponse(JSONObject response) {
-            if(response != null) {
-              Log.i(TAG, response.toString());
-              int code = -1;
-              try {
-                code = response.getInt("code");
-              } catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
-              }
-              if(code == 0) {
-                Intent intent = new Intent();
-                intent.setClass(CompleteBaseInfoActivity.this, LoginActivity.class);
-                startActivity(intent);
+      competeBaseInfo();
+    }
+  }
+
+  private void competeBaseInfo() {
+    if(TextUtils.isEmpty(mNicknameEditText.getEditableText())) {
+      Toast.makeText(getApplicationContext(), getResources().getString(R.string.nickname), Toast.LENGTH_SHORT).show();
+      return;
+    }
+    if(mAvatarUrl == null) {
+      Toast.makeText(getApplicationContext(), getResources().getString(R.string.pls_upload_avatar), Toast.LENGTH_SHORT).show();
+      return;
+    }
+    int checkedId = mGenderRadioGroup.getCheckedRadioButtonId();
+    final int gender = checkedId == 0 ? 1: 2;
+    LylJSONObject jsonRequest = null;
+    JSONObject data = new JSONObject();
+    try {
+      data.put("head", mAvatarUrl);
+      data.put("sex", gender);
+      data.put("nickName", mNicknameEditText.getText().toString());
+      jsonRequest = new LylJSONObject(this, data);
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+      return;
+    }
+    // @formatter:off
+    LylJsonObjectRequest request = new LylJsonObjectRequest(Method.POST, UrlConsts.completeBaseInfoUrl, jsonRequest, 
+      new Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+          if(response != null) {
+            Log.i(TAG, response.toString());
+            int code = -1;
+            try {
+              code = response.getInt("code");
+            } catch (JSONException e) {
+              Log.e(TAG, e.getMessage());
+            }
+            if(code == 0) {
+              SharedPreferences prefs = SharedPreferencesUtils.getPreferences(getApplicationContext(), AppPrefsConsts.PREFS_USER);
+              Editor editor = prefs.edit();
+              editor.putString(AppPrefsConsts.PREFS_USER_KEY_AVATAR_WHOLE_URL, mAvatarWholeUrl);
+              editor.putString(AppPrefsConsts.PREFS_USER_KEY_AVATAR_URL, mAvatarUrl);
+              editor.putString(AppPrefsConsts.PREFS_USER_KEY_NICKNAME, mNicknameEditText.getText().toString());
+              editor.putInt(AppPrefsConsts.PREFS_USER_KEY_GENDER, gender);
+              editor.commit();
+              if(mSessionManager.isLoggedin()) {
                 finish();
                 return;
               }
-              Toast.makeText(getApplicationContext(), getResources().getString(R.string.pls_upload_avatar), Toast.LENGTH_SHORT).show();
+              Intent intent = new Intent();
+              intent.setClass(CompleteBaseInfoActivity.this, LoginActivity.class);
+              startActivity(intent);
+              finish();
+              return;
             }
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.pls_upload_avatar), Toast.LENGTH_SHORT).show();
           }
-        }, 
-        new ErrorListener() {
-          @Override
-          public void onErrorResponse(VolleyError error) {
-            
-          }
-        });
-      MainApplication.getInstance().getRequestQueue().add(request);
-      // @formatter:on
-    }
+        }
+      }, 
+      new ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+          
+        }
+      });
+    MainApplication.getInstance().getRequestQueue().add(request);
+    // @formatter:on
   }
 
   private void initCaptureDialog() {
@@ -277,9 +290,9 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
   }
 
   private void uploadAvatar(Bitmap bitmap) {
-    // @formatter:off
     Map<String, String> params = new HashMap<String, String>();
     params.put("bizType", "head");
+    // @formatter:off
     MultipartRequest request = new MultipartRequest(UrlConsts.uploadUrl, 
         new Listener<JSONObject>() {
           @Override
@@ -294,7 +307,9 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
               Log.e(TAG, e.getMessage());
             }
             if(code == 0) {
-              uploadAvatarOK(response);
+              uploadAvatarSuccess(response);
+            } else {
+              uploadAvatarSuccess(response);
             }
           }
         }, 
@@ -308,18 +323,14 @@ public class CompleteBaseInfoActivity extends ActionBarActivity implements OnCli
     MainApplication.getInstance().getRequestQueue().add(request);
   }
 
-  private void uploadAvatarOK(JSONObject response) {
+  private void uploadAvatarSuccess(JSONObject response) {
     JSONObject jsonObject = null;
     try {
       jsonObject = response.getJSONObject("data");
       if (jsonObject != null) {
-        String wholeUrl = jsonObject.getString("wholeUrl");
-        uploadedAvatarUrl = wholeUrl;
-        SharedPreferences prefs = getAvatarSharedPrefs();
-        Editor editor = prefs.edit();
-        editor.putString("avatarUrl", wholeUrl);
-        editor.commit();
-        displayAvatar(wholeUrl);
+        mAvatarWholeUrl = jsonObject.getString("wholeUrl");
+        mAvatarUrl = jsonObject.getString("url");
+        ImageUtils.displayAvatar(mAvatarImageView, mAvatarWholeUrl);
       }
     } catch (JSONException e) {
       Log.e(TAG, e.getMessage());

@@ -3,6 +3,8 @@ package com.cloudaward.lyl;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cloudaward.lyl.utils.SharedPreferencesUtils;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +12,7 @@ import android.content.SharedPreferences.Editor;
 
 public class SessionManager {
 
-  private static final String PREF_NAME = "SessionPref";
+  private static final String PREFS_SESSION = "prefs_session";
 
   private SharedPreferences mSharedPreferences;
 
@@ -24,7 +26,7 @@ public class SessionManager {
 
   public SessionManager(Context context) {
     this.mContext = context;
-    this.mSharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+    this.mSharedPreferences = SharedPreferencesUtils.getPreferences(context.getApplicationContext(), PREFS_SESSION);
     this.mEditor = mSharedPreferences.edit();
   }
 

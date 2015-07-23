@@ -27,7 +27,7 @@
                 android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
             <ImageView
-                android:id="@+id/iv_forward"
+                android:id="@+id/iv_avatar_forward"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -37,12 +37,12 @@
                 android:src="@drawable/ic_forward" />
 
             <ImageView
-                android:id="@+id/iv_avatar_forward"
+                android:id="@+id/iv_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/iv_forward"
-                android:layout_toStartOf="@+id/iv_forward"
+                android:layout_toLeftOf="@+id/iv_avatar_forward"
+                android:layout_toStartOf="@+id/iv_avatar_forward"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_avatar" />
         </RelativeLayout>
@@ -76,6 +76,14 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_forward" />
+            
+            <TextView
+                android:id="@+id/tv_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/iv_nickname_forward"
+                android:layout_toStartOf="@+id/iv_nickname_forward" />
         </RelativeLayout>
 
         <View

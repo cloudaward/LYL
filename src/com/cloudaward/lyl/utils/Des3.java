@@ -1,5 +1,8 @@
 package com.cloudaward.lyl.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.security.Key;
 
 import javax.crypto.Cipher;
@@ -20,10 +23,14 @@ public class Des3 {
     return encode(plainText, DEFAULT_KEY);
   }
 
+  public static String decode(String encryptText) {
+    return decode(encryptText, DEFAULT_KEY);
+  }
+
   /**
-   * 3DES加密
+   * 3DES encode
    * 
-   * @param plainText 普通文本
+   * @param plainText
    * @return
    * @throws Exception
    */
@@ -48,11 +55,32 @@ public class Des3 {
     return Base64.encode(encryptData);
   }
 
+  public static String decode(String encryptText, String key) {
+    if (key == null || key.isEmpty()) {
+      return null;
+    }
+    try {
+      Key deskey = null;
+      DESedeKeySpec spec = new DESedeKeySpec(key.getBytes());
+      SecretKeyFactory keyfactory = SecretKeyFactory.getInstance("desede");
+      deskey = keyfactory.generateSecret(spec);
+      Cipher cipher = Cipher.getInstance("desede/CBC/PKCS5Padding");
+      IvParameterSpec ips = new IvParameterSpec(iv.getBytes());
+      cipher.init(Cipher.DECRYPT_MODE, deskey, ips);
+
+      byte[] decryptData = cipher.doFinal(Base64.decode(encryptText));
+
+      return new String(decryptData, encoding);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   /**
    * Base64编码工具类
    */
   private static final class Base64 {
-    
+
     private static final char[] legalChars =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
@@ -99,7 +127,79 @@ public class Des3 {
       }
       return buf.toString();
     }
+
+    private static int decode(char c) {
+      if (c >= 'A' && c <= 'Z')
+        return ((int) c) - 65;
+      else if (c >= 'a' && c <= 'z')
+        return ((int) c) - 97 + 26;
+      else if (c >= '0' && c <= '9')
+        return ((int) c) - 48 + 26 + 26;
+      else
+        switch (c) {
+          case '+':
+            return 62;
+          case '/':
+            return 63;
+          case '=':
+            return 0;
+          default:
+            throw new RuntimeException("unexpected code: " + c);
+        }
+    }
+
+    /**
+     * Decodes the given Base64 encoded String to a new byte array. The byte array holding the
+     * decoded data is returned.
+     */
+
+    public static byte[] decode(String s) {
+
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      try {
+        decode(s, bos);
+      } catch (IOException e) {
+        throw new RuntimeException();
+      }
+      byte[] decodedBytes = bos.toByteArray();
+      try {
+        bos.close();
+        bos = null;
+      } catch (IOException ex) {
+        System.err.println("Error while decoding BASE64: " + ex.toString());
+      }
+      return decodedBytes;
+    }
+
+    private static void decode(String s, OutputStream os) throws IOException {
+      int i = 0;
+
+      int len = s.length();
+
+      while (true) {
+        while (i < len && s.charAt(i) <= ' ')
+          i++;
+
+        if (i == len)
+          break;
+
+        int tri =
+            (decode(s.charAt(i)) << 18) + (decode(s.charAt(i + 1)) << 12)
+                + (decode(s.charAt(i + 2)) << 6) + (decode(s.charAt(i + 3)));
+
+        os.write((tri >> 16) & 255);
+        if (s.charAt(i + 2) == '=')
+          break;
+        os.write((tri >> 8) & 255);
+        if (s.charAt(i + 3) == '=')
+          break;
+        os.write(tri & 255);
+
+        i += 4;
+      }
+    }
   }
+
   public static void main(String[] args) {
     String encode = Des3.encode("123");
     System.out.println(encode);

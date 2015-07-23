@@ -98,8 +98,7 @@ public class MultipartRequest extends Request<JSONObject> {
   @Override
   protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
     try {
-      String jsonString =
-          new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+      String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
       JSONObject jsonObject = new JSONObject(jsonString);
       return Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response));
     } catch (UnsupportedEncodingException e) {

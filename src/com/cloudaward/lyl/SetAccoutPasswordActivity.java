@@ -36,13 +36,13 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
 
   private static final String TAG = SetAccoutPasswordActivity.class.getSimpleName();
 
-  private EditText mInputCaptchaEditText;
+  private EditText mCaptchaEditText;
 
   private Button mResendCaptchaButton;
 
-  private EditText mInputPasswordEditText;
+  private EditText mPasswordEditText;
 
-  private EditText mInputPasswordAgainEditText;
+  private EditText mPasswordAgainEditText;
 
   private Button mNextStepButton;
 
@@ -54,7 +54,7 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
     setContentView(R.layout.activity_set_accout_password);
     ActionBarUtils.initGeneralActionBar(this);
 
-    mInputCaptchaEditText = (EditText) findViewById(R.id.et_input_captcha);
+    mCaptchaEditText = (EditText) findViewById(R.id.et_input_captcha);
 
     mResendCaptchaButton = (Button) findViewById(R.id.btn_resend_captcha);
 
@@ -74,9 +74,9 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
       }
     };
 
-    mInputPasswordEditText = (EditText) findViewById(R.id.et_input_password);
+    mPasswordEditText = (EditText) findViewById(R.id.et_input_password);
 
-    mInputPasswordAgainEditText = (EditText) findViewById(R.id.et_input_password_again);
+    mPasswordAgainEditText = (EditText) findViewById(R.id.et_input_password_again);
 
     mNextStepButton = (Button) findViewById(R.id.btn_next_step);
     mNextStepButton.setOnClickListener(this);
@@ -113,31 +113,31 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
     if (v == mNextStepButton) {
       RegisterContext context = new RegisterContext();
       // @formatter:off
-      if (TextUtils.isEmpty(mInputCaptchaEditText.getText())) {
+      if (TextUtils.isEmpty(mCaptchaEditText.getText())) {
         Toast.makeText(getApplicationContext(),
             getResources().getString(R.string.captcha_not_null), Toast.LENGTH_SHORT).show();
         return;
       }
-      if (TextUtils.isEmpty(mInputPasswordEditText.getText())) {
+      if (TextUtils.isEmpty(mPasswordEditText.getText())) {
         Toast.makeText(getApplicationContext(),
             getResources().getString(R.string.password_not_null), Toast.LENGTH_SHORT).show();
         return;
       }
-      if (TextUtils.isEmpty(mInputPasswordAgainEditText.getText())) {
+      if (TextUtils.isEmpty(mPasswordAgainEditText.getText())) {
         Toast.makeText(getApplicationContext(),
             getResources().getString(R.string.password_again_not_null), Toast.LENGTH_SHORT).show();
         return;
       }
-      if (!mInputPasswordAgainEditText.getText().toString().equals(mInputPasswordEditText.getText().toString())) {
+      if (!mPasswordAgainEditText.getText().toString().equals(mPasswordEditText.getText().toString())) {
         Toast.makeText(getApplicationContext(),
             getResources().getString(R.string.password_not_consistency), Toast.LENGTH_SHORT).show();
         return;
       }
       if (getIntent() != null) {
-        String encodedCellphoneNumber = getIntent().getExtras().getString("encodedCellphoneNumber", "");
-        context.setCellphoneNumber(encodedCellphoneNumber);
-        context.setCaptcha(mInputCaptchaEditText.getText().toString());
-        context.setPassword(URLEncoder.encode(MD5.md5(mInputPasswordEditText.getText().toString())));
+        String phoneNumber = getIntent().getExtras().getString("phoneNumber", "");
+        context.setCellphoneNumber(phoneNumber);
+        context.setCaptcha(mCaptchaEditText.getText().toString());
+        context.setPassword(URLEncoder.encode(MD5.md5(mPasswordEditText.getText().toString())));
         register(context);
       }
       // @formatter:on
@@ -171,9 +171,9 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
               Log.e(TAG, e.getMessage());
             }
             if(code == 0) {
-              Intent intent = new Intent();
-              intent.setClass(SetAccoutPasswordActivity.this, CompleteBaseInfoActivity.class);
-              startActivity(intent);    
+              updatePasswordSuccess();    
+            } else {
+              updatePasswordFail(response);
             }
           }
         },
@@ -186,5 +186,20 @@ public class SetAccoutPasswordActivity extends ActionBarActivity implements OnCl
         });
     MainApplication.getInstance().getRequestQueue().add(request);
     // @formatter:on
+  }
+  
+  private void updatePasswordFail(JSONObject response) {
+    try {
+      String message = response.getString("msg");
+      Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+    }
+  }
+
+  private void updatePasswordSuccess() {
+    Intent intent = new Intent();
+    intent.setClass(this, CompleteBaseInfoActivity.class);
+    startActivity(intent);
   }
 }

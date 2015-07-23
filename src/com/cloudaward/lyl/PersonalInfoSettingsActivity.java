@@ -1,20 +1,31 @@
 package com.cloudaward.lyl;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.cloudaward.lyl.consts.AppPrefsConsts;
 import com.cloudaward.lyl.utils.ActionBarUtils;
+import com.cloudaward.lyl.utils.ImageUtils;
+import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 
 public class PersonalInfoSettingsActivity extends AbstractCheckLoginActivity implements OnClickListener {
   
   private RelativeLayout mAvatarLayout;
+  private ImageView mAvatarImageView;
+  
   private RelativeLayout mNicknameLayout;
+  private TextView mNicknameTextView;
+  
   private RelativeLayout mCellphoneLayout;
   private RelativeLayout mGenderLayout;
   private RelativeLayout mPersonaBaseInfoLayout;
@@ -33,9 +44,11 @@ public class PersonalInfoSettingsActivity extends AbstractCheckLoginActivity imp
     ActionBarUtils.initGeneralActionBar(this);
     
     mAvatarLayout = (RelativeLayout) findViewById(R.id.layout_avatar);
+    mAvatarImageView = (ImageView) findViewById(R.id.iv_avatar);
     mAvatarLayout.setOnClickListener(this);
     
     mNicknameLayout = (RelativeLayout) findViewById(R.id.layout_nickname);
+    mNicknameTextView = (TextView) findViewById(R.id.tv_nickname);
     mNicknameLayout.setOnClickListener(this);
     
     mCellphoneLayout = (RelativeLayout) findViewById(R.id.layout_cellphone);
@@ -63,6 +76,17 @@ public class PersonalInfoSettingsActivity extends AbstractCheckLoginActivity imp
     mLogoutButton.setOnClickListener(this);
     
   }
+  
+  @Override
+  protected void onStart() {
+    super.onStart();
+    SharedPreferences prefs = SharedPreferencesUtils.getPreferences(getApplicationContext(), AppPrefsConsts.PREFS_USER);
+    String avatarWholeUrl = prefs.getString(AppPrefsConsts.PREFS_USER_KEY_AVATAR_WHOLE_URL, "");
+    if (avatarWholeUrl != null) {
+      ImageUtils.displayAvatar(mAvatarImageView, avatarWholeUrl);
+    }
+    mNicknameTextView.setText(prefs.getString(AppPrefsConsts.PREFS_USER_KEY_NICKNAME, ""));
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,7 +110,8 @@ public class PersonalInfoSettingsActivity extends AbstractCheckLoginActivity imp
   @Override
   public void onClick(View v) {
     if(v == mAvatarLayout) {
-//      ActivityUtils.startActivity(this, toActivityClass);
+      Intent intent = new Intent(this, CompleteBaseInfoActivity.class);
+      startActivity(intent);
     }
     else if(v == mLogoutButton) {
       mSessionManager.logout();

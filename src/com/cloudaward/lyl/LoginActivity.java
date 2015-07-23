@@ -13,7 +13,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,14 +48,7 @@ public class LoginActivity extends ActionBarActivity {
 
   private TextView mRegisterTextView;
 
-  private static SparseArray<String> errorMsg = new SparseArray<String>();
-
   private SessionManager mSessionManager;
-
-  static {
-    errorMsg.put(1, "用户名不能为空");
-    errorMsg.put(2, "密码不能为空");
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +148,11 @@ public class LoginActivity extends ActionBarActivity {
       @Override
       public void onClick(View v) {
         if (TextUtils.isEmpty(mUsernameEditText.getText())) {
-          Toast.makeText(LoginActivity.this, errorMsg.get(1), Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, getResources().getString(R.string.username_not_null), Toast.LENGTH_SHORT).show();
           return;
         }
         if (TextUtils.isEmpty(mPasswordEditText.getText())) {
-          Toast.makeText(LoginActivity.this, errorMsg.get(2), Toast.LENGTH_SHORT).show();
+          Toast.makeText(LoginActivity.this, getResources().getString(R.string.password_not_null), Toast.LENGTH_SHORT).show();
           return;
         }
         LoginContext context = new LoginContext();
@@ -198,7 +190,7 @@ public class LoginActivity extends ActionBarActivity {
             if(code == 0) {
               loginSuccess();
             } else {
-              loginFail(code);
+              loginFail(code, response);
             }
           }
         }, 
@@ -224,9 +216,18 @@ public class LoginActivity extends ActionBarActivity {
     finish();
   }
 
-  private void loginFail(int errorCode) {
+  private void loginFail(int errorCode, JSONObject response) {
     // @formatter:off
-    Toast.makeText(this, getResources().getString(R.string.username_or_password_error), Toast.LENGTH_SHORT).show();
+    try {
+      String errorMsg = response.getString("msg");
+      Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
+      if(errorCode == 7) {
+        Intent intent = new Intent(this, CompleteBaseInfoActivity.class);
+        startActivity(intent);
+      }
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+    }
     // @formatter:on
   }
 

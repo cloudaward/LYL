@@ -6,6 +6,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -25,11 +27,13 @@ import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.cloudaward.lyl.consts.AppPrefsConsts;
 import com.cloudaward.lyl.consts.UrlConsts;
 import com.cloudaward.lyl.network.LylJSONObject;
 import com.cloudaward.lyl.network.LylJsonObjectRequest;
 import com.cloudaward.lyl.utils.ActionBarUtils;
 import com.cloudaward.lyl.utils.Des3;
+import com.cloudaward.lyl.utils.SharedPreferencesUtils;
 
 
 @SuppressWarnings("deprecation")
@@ -37,13 +41,13 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
 
   private static final String TAG = RegisterActivity.class.getSimpleName();
 
-  private EditText mCellphoneZipcodeEditText;
+  private EditText mAreacodeEditText;
 
-  private EditText mCellphoneNumberEditText;
+  private EditText mPhoneNumberEditText;
 
   private Button mNextStepButton;
   
-  private CheckBox mAgreementCheckedTextView;
+  private CheckBox mAgreementCheckedBox;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +55,11 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
     setContentView(R.layout.activity_register);
     ActionBarUtils.initGeneralActionBar(this);
 
-    mCellphoneZipcodeEditText = (EditText) findViewById(R.id.et_cellphone_zipcode);
+    mAreacodeEditText = (EditText) findViewById(R.id.et_area_code);
 
-    mCellphoneNumberEditText = (EditText) findViewById(R.id.et_cellphone_number);
+    mPhoneNumberEditText = (EditText) findViewById(R.id.et_cellphone_number);
 
-    mCellphoneNumberEditText.addTextChangedListener(new TextWatcher() {
+    mPhoneNumberEditText.addTextChangedListener(new TextWatcher() {
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -76,7 +80,7 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
       }
     });
 
-    mAgreementCheckedTextView = (CheckBox) findViewById(R.id.cb_agreement);
+    mAgreementCheckedBox = (CheckBox) findViewById(R.id.cb_agreement);
     
     mNextStepButton = (Button) findViewById(R.id.btn_next_step);
     mNextStepButton.setOnClickListener(this);
@@ -105,18 +109,18 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
   public void onClick(View v) {
     if (v == mNextStepButton) {
       //@formatter:off
-      if (TextUtils.isEmpty(mCellphoneNumberEditText.getText())) {
+      if (TextUtils.isEmpty(mPhoneNumberEditText.getText())) {
         Toast.makeText(this, getResources().getString(R.string.cellphone_number_not_null), Toast.LENGTH_SHORT).show();
-        mCellphoneNumberEditText.requestFocus();
+        mPhoneNumberEditText.requestFocus();
         return;
       }
-      if (!mAgreementCheckedTextView.isChecked()) {
-        Toast.makeText(this, getResources().getString(R.string.agreement_goon), Toast.LENGTH_SHORT).show();
+      if (!mAgreementCheckedBox.isChecked()) {
+        Toast.makeText(this, getResources().getString(R.string.make_an_agreement), Toast.LENGTH_SHORT).show();
         return;
       }
-      String zipcode = mCellphoneZipcodeEditText.getText() != null ? mCellphoneZipcodeEditText.getText().toString() : "";
+      String zipcode = mAreacodeEditText.getText() != null ? mAreacodeEditText.getText().toString() : "";
       //@formatter:on
-      requestCaptcha(zipcode, mCellphoneNumberEditText.getText().toString());
+      requestCaptcha(zipcode, mPhoneNumberEditText.getText().toString());
     }
   }
 
@@ -144,18 +148,12 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
               Log.e(TAG, e.getMessage());
             }
             if(code == 0) {
-              requestCaptchaOK(encodedCellphoneNumber);
+              requestCaptchaSuccess(encodedCellphoneNumber);
             } else {
               Log.i(TAG, response.toString());
-              try {
-                String message = response.getString("msg");
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-              } catch (JSONException e) {
-                Log.e(TAG, e.getMessage());
-              }
+              requestCaptchaFail(response);
             }
           }
-
         }, 
         new ErrorListener() {
           @Override
@@ -166,13 +164,23 @@ public class RegisterActivity extends ActionBarActivity implements OnClickListen
     // @formatter:on
     MainApplication.getInstance().getRequestQueue().add(request);
   }
-
-  private void requestCaptchaOK(String encodedCellphoneNumber) {
+  
+  private void requestCaptchaSuccess(String phoneNumber) {
     Intent intent = new Intent();
     Bundle bundle = new Bundle();
-    bundle.putString("encodedCellphoneNumber", encodedCellphoneNumber);
+    bundle.putString("phoneNumber", phoneNumber);
     intent.putExtras(bundle);
     intent.setClass(RegisterActivity.this, SetAccoutPasswordActivity.class);
     startActivity(intent);
   }
+  
+  private void requestCaptchaFail(JSONObject response) {
+    try {
+      String message = response.getString("msg");
+      Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    } catch (JSONException e) {
+      Log.e(TAG, e.getMessage());
+    }
+  }
+
 }

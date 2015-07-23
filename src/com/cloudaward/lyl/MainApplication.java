@@ -20,8 +20,8 @@ public class MainApplication extends Application {
   public static final String TAG = MainActivity.class.getSimpleName();
   private static final String SET_COOKIE_KEY = "Set-Cookie";
   private static final String COOKIE_KEY = "Cookie";
+  public static final String PREFS_SESSION_COOKIE = "prefs_session_cookie";
   private static final String SESSION_COOKIE = "u";
-  private static final String PREFS_KEY_COOKIE = "PREFS_COOKIE";
 
   private static MainApplication mInstance;
 
@@ -33,7 +33,7 @@ public class MainApplication extends Application {
   public void onCreate() {
     super.onCreate();
     mInstance = this;
-    mSharedPreferences = getSharedPreferences(PREFS_KEY_COOKIE, Context.MODE_PRIVATE);
+    mSharedPreferences = getSharedPreferences(PREFS_SESSION_COOKIE, Context.MODE_PRIVATE);
     mRequestQueue = Volley.newRequestQueue(getApplicationContext());
     initImageLoader(getApplicationContext());
   }

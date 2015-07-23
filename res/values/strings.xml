@@ -59,6 +59,7 @@
     <string name="input_password">设置您的密码，不少于6位</string>
     <string name="input_password_again">再次输入密码</string>
     <string name="resend">重新发送</string>
+    <string name="username_not_null">用户名不能为空</string>
     <string name="captcha_not_null">验证码不能为空</string>
     <string name="password_not_null">密码不能为空</string>
     <string name="password_again_not_null">密码不能为空</string>
@@ -73,6 +74,6 @@
     <string name="without_capture_app">没有发现可以拍摄的应用</string>
     <string name="nickname_not_null">昵称不能为空</string>
     <string name="pls_upload_avatar">请点击头像上传您的头像</string>
-    <string name="agreement_goon">同意《捞银两的隐私和服务条款》，完成注册</string>
+    <string name="make_an_agreement">同意《捞银两的隐私和服务条款》，完成注册</string>
 
 </resources>
